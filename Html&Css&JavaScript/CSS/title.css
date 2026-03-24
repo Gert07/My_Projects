@@ -1,11 +1,28 @@
-.header {
-    background-color: beige;
-    padding: 0px 0px 0px 0px;
-    height: 100px;
-    position: fixed;
+.card1 {
+    position: relative;
+    right: 30px;
+    top: 20px;
+    left: 20px;
+    bottom: 20px; 
+}
+.flex {
+    display: flex;'
+    gap: 20px;
+    align: .items: flex-start;
+}
+#yap {
+    height: 666px;
+    width: 300px;
+    flex: 1;
+    position: sticky;
     top: 0px;
-    width: 100%;
-    z-index: 50;
+    margin-top: 37px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.container {
+    margin-right: 20px; 
+    margin-top: 20px;
 }
 .heading {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -14,8 +31,18 @@
     text-align: center;
     color: #111810;
 }
+.textarea {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: lighter;
+    text-shadow: 2px;
+    text-align: left;
+    color: #111130;
+}
 .italic {
     font-style: italic;
+}
+.padding {
+    padding: 20px 20px 20px 20px;
 }
 
 .nav {
