@@ -1,0 +1,34 @@
+.header {
+    background-color: beige;
+    padding: 0px 0px 0px 0px;
+    height: 100px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 50;
+}
+.heading {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: lighter;
+    text-shadow: 3px;
+    text-align: center;
+    color: #111810;
+}
+.italic {
+    font-style: italic;
+}
+
+.nav {
+    float: left;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    padding: 45px 0px 0px 0px;
+    position: :horizontal;
+}
+li {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 0px 0px 5px 0px;
+    color: black;
+}
+.center {
+    width: 100%; overflow: hidden; display: inline-block; width: auto;
+}
