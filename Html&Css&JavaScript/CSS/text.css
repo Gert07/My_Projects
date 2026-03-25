@@ -1,0 +1,24 @@
+.headMid {
+    text-align: center;
+    font-style: italic;
+    text-decoration: wavy;
+}
+.headLeft {
+    text-align: left;
+    font-style: oblique;
+}
+.paraTextMed {
+    text-align: left;
+    font-style: normal;
+}
+.paraTextImp {
+    text-align: center;
+    font-style: oblique;
+    font-size: large;
+}
+.navText {
+    text-align: center;
+    font-style: oblique;
+    font-size: medium;
+    color: #00008B;
+}

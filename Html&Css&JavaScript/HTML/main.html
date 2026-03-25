@@ -4,36 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
-    <link rel="stylesheet" href="../CSS/title.css">
+    <link rel="stylesheet" href="../CSS/text.css">
     <link rel="stylesheet" href="../CSS/w3.css">
 </head>
 <body>
     <div class="w3-panel w3-white">
         <div class="w3-header">
-            <h1 class="heading italic">My Projects</h1>
+            <h1 class="headMid">My Projects</h1>
         </div>
         <div class="w3-center w3-bar w3-card">
-            <a href="./main.html" class="w3-bar-item w3-button w3-hover-light-blue" style="width: 300px;">Home</a>
+            <a href="./main.html" class="w3-bar-item w3-button w3-hover-light-blue navText" style="width: 300px;">Home</a>
             <div class="w3-dropdown-hover" style="width: 300px">
-                <button class="w3-white w3-button w3-hover-light-blue" style="width: 300px;">Projects</button>
+                <button class="w3-white w3-button w3-hover-light-blue navText" style="width: 300px;">Projects</button>
                     <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                        <a href="#" class="w3-bar-item w3-button w3-hover-light-blue" style="width: 300px;">Python Projects</a>
-                        <a href="#" class="w3-bar-item w3-button w3-hover-light-blue">C# Projects</a>
-                        <a href="#" class="w3-bar-item w3-button w3-hover-light-blue">Javascript Projects</a>
+                        <a href="#" class="w3-bar-item w3-button w3-hover-light-blue navText" style="width: 300px;">Python Projects</a>
+                        <a href="#" class="w3-bar-item w3-button w3-hover-light-blue navText">C# Projects</a>
+                        <a href="#" class="w3-bar-item w3-button w3-hover-light-blue navText">Javascript Projects</a>
                     </div>
             </div>
-            <a href="./material.html" class="w3-bar-item w3-button w3-hover-light-blue" style="width: 300px;">Study Material</a>
-            <a href="./gallery.html" class="w3-bar-item w3-button w3-hover-light-blue" style="width: 300px;">Gallery</a> 
+            <div class="w3-dropdown-hover" style="width: 300px">
+                <button class="w3-white w3-button w3-hover-light-blue navText" style="width: 300px;">Study Materials</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="./StudyMaterials/Multimeedia/MultimeediaMain.html" class="w3-bar-item w3-button w3-hover-light-blue navText" style="width: 300px;">Multimeedia</a>
+                        <a href="./StudyMaterials/TarkvaraArendusprotsess/TarkvaraMain.html" class="w3-bar-item w3-button w3-hover-light-blue navText">TarkvaraArenudsprotsess</a>
+                        <a href="./StudyMaterials/Python/PythonMain.html" class="w3-bar-item w3-button w3-hover-light-blue navText">Python</a>
+                    </div>
+            </div>
+            <a href="./gallery.html" class="w3-bar-item w3-button w3-hover-light-blue navText" style="width: 300px;">Gallery</a> 
             <div class="w3-right">
-                <a href="#" class="w3-bar-item w3-button w3-hover-light-blue">Contact</a>
+                <a href="#" class="w3-bar-item w3-button w3-hover-light-blue navText">Contact</a>
                 <div class="w3-right">
                     <input type="text" class="w3-bar-item w3-input w3-text-blue" placeholder="Search..">
                 </div>
             </div>
         </div>
     </div>
-    <div class="w3-row">
-        <div class="w3-quarter w3-white w3-card-4 padding card1 container">
+    <div class="w3-flex" style="gap: 8px">
+        <div class="w3-card-4 w3-threequarter w3-padding w3-margin">
             <h2>Welcome</h2>
             <p>
                 Here you find info about my projects and all sorts of stuff i've been making. My hobbies are coding and photography. You cand find respective topics from navbar.
@@ -41,29 +48,21 @@
             </p>
             <img src="#" alt="Sth cool" height="500px">
         </div>
-        <div class="w3-half w3-white w3-card-4 padding card1 container">
-            <h2>Latest Study Material</h2>
-            <p>
-                Latest study material
-            </p>
-            <img src="#" alt="tunniplaan" height="500px">
+        <div class="w3-card-4 w3-half w3-padding w3-margin">
+            <h2>Tunniplaan</h2>
+            <img src="../HTML/MainPics/Tunniplaan.png" alt="tunniplaan" height="500px">
         </div>
-        <div class="flex">
-            <div class="w3-card-4 w3-quarter" id="yap">
-                <div class="w3-container">
-                    <h2 class="heading italic" style="text-align: left;">To-do List</h2>
-                    <input class="w3-bar-block card1" id="task" placeholder="Write your task here..." type="text">
-                    <button class="w3-button w3-hover-text-blue w3-hover-none w3-text-light-blue card1" onclick="addTask()">Add</button>
-                    <ul id="list"></ul>
-                </div>
-            </div>
-        </div>      
-    </div><br>
-    <div class="w3-footer">
+        <div class="w3-card-4 w3-half w3-padding w3-margin">
+            <h2>TodoList</h2>
+            <p>
+                Make TodoList
+            </p>     
+        </div>
+    </div>   
+    <div class="w3-footer w3-border-top w3-border-light-blue">
         <p class="w3-center">
             This is footer text
         </p>
     </div>
-<script src="../JavaScript/ToDoList.js"></script>
 </body>
 </html>
