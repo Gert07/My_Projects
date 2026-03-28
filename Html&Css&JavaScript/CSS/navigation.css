@@ -1,0 +1,89 @@
+/*? Navigation */
+
+.nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333333;
+  display: flex;
+  position: sticky;
+}
+.nav li {
+    min-width: 150px;
+}
+
+.nav ul li a {
+  display: block;
+  color: white;
+  padding: 15px 16px;
+  text-decoration: none;
+}
+.nav ul li a.active {
+    background-color: #c50d0d;
+}
+
+.nav ul li a:hover {
+    background-color: white;
+    color: black;
+}
+
+.nav-right {
+    margin-left: auto;
+}  
+
+.nav-margin {
+    margin: 20px 5px 10px 5px;
+}
+.nav-shadow {
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/*? Dropdown  */
+
+.dropdown {
+  position: relative;
+}
+
+/* Style the dropdown button */
+.dropdown-btn {
+  background-color: #5f0b05;
+  color: white;
+  padding: 18px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  min-width: 150px
+}
+
+/* Dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #5f0b05;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside dropdown content */
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+/* Show the dropdown content on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change background color of dropdown button on hover */
+.dropdown:hover .dropdown-btn {
+  background-color: #c50d0d;
+}

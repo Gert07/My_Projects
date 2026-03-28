@@ -4,22 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" | content="width=device-width, initial-scale=1.0">
     <title>Main Menu</title>
-    <link rel="stylesheet" | href="../CSS/text.css">
-    <link rel="stylesheet" | href="../CSS/container.css">
+    <link rel="stylesheet" | href="../CSS/navigation.css">
+    <link rel="stylesheet" href="../CSS/dropdown.css">
+    <link rel="stylesheet" href="../CSS/text.css">
 </head>
-<body class="heading">
-    <div class="container1 center">
-        <div class="row menu header">
-            <a href="#" | class="dropbtn">Home</a>
-            <div class="headerLi dropdown">
-                <button class="dropbtn">Projects</button>
-                <div class="dropdown-content">
-                    <a href="#">C# Projects</a>
-                    <a href="#">JavaScript Projects</a>
-                    <a href="#">Python Projects</a>
-                </div>
-            </div>
+<body>
+    <!--? Header -->
+    <div class="heading">
+        <h1>My Projects</h1>
+        <div class="nav-margin | nav-shadow | nav">
+            <ul class="">
+                <li class="navItems"><a href="#" | class="|">Home</a></li>
+                <li class="navItems | dropdown">
+                    <button class="dropdown-btn">Projects</button>
+                    <div class="dropdown-content">
+                        <a href="#">C# Projects</a>
+                        <a href="#">JavaScript Projects</a>
+                        <a href="#">Python Projects</a>
+                    </div>
+                </li>
+                <li class="navItems | dropdown">
+                    <button class="dropdown-btn">Study Materials</button>
+                    <div class="dropdown-content">
+                        <a href="#">Multimeedia</a>
+                        <a href="#">Python</a>
+                        <a href="#">TarkvaraArendusprotsess</a>
+                    </div>
+                </li>
+                <li class="navItems | dropdown | nav-right"><a href="#">Contacts</a></li>
+                <li class="navItems | dropdown"><a href="#">Search</a></li>
+            </ul>
         </div>
+    </div>
+    <!--? Body -->
+    <div>
+        
+    </div>
+    <!--? Footer -->
+    <div>
+
     </div>
 </body>
 </html> 
