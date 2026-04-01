@@ -1,3 +1,22 @@
+/*! Background site */
+/* Default */
+:root {
+  --bg: white;
+  --text: black;
+  --border: solid black;
+}
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #252525;
+    --text: white;
+    --border: solid white;
+  }
+}
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
 /*! Navigation */
 
 .nav ul {
@@ -107,6 +126,18 @@
   margin: 5px;
 }
 
+/*? Body div elements */
+
+.container2 {
+  background-color: var(--bg);
+  border-radius: 12px 0px 0px 12px;
+  padding: 5px 0px 5px 5px;
+  margin-right: 5px;
+  color: var(--text);
+  border: var(--border);
+}
+
+
 /*? Body navigation */
 
 .body ul {
@@ -115,13 +146,12 @@
   padding: 0;
   width: auto;
   background-color: #333333;
-  border-radius: 0px 5px 5px 0px;
 }
 
 .body li a {
   display: block;
   color: black;
-  padding: 8px 16px;
+  padding: 5px;
   text-decoration: none;
 }
 
@@ -141,32 +171,52 @@
 
 .body-menu button {
   width: 100%;
-  padding: 0px;
+  padding: 10px;
   cursor: pointer;
   border: none;
-  background-color: #c50d0d;
+  background-color: #5f0b05;
   color: white;
 }
 
-.body-submenu {
-  display: none;
-  background-color: #5f0b05;
+.body-menu button.active {
+  background: #c50d0d;
+}
+
+.body-submenu,
+.body-submenu-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.body-submenu.open,
+.body-submenu-content.open {
+  max-height: 1000px;
 }
 
 .body-submenu button {
-  background-color: #f1f1f1;
-  color: black;
+  background-color: #5f0b05;
+  color: white;
   border-top: 1px solid #ccc;
+  padding-left: 20px;
 }
 
-.body-submenu button:hover {
-  background-color: #c50d0d;
+.body-submenu-content button {
+  background: #2b0808;
+  padding-left: 4px;
+}
+button:hover {
+  background-color: rgb(133, 54, 54);
 }
 
-.body-menu.active .body-submenu {
-  display: block;
+.body-submenu button.active {
+  background: #d47202;
 }
 
+.menu-link.active-page {
+  background-color: #888;
+  color: white;
+}
 
 /*! Footer */
 
@@ -180,4 +230,6 @@
     background-size: cover;
     height: auto;
     color: white;
+    position: relative;
+    top: 20px;
 }

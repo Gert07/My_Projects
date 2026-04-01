@@ -1,24 +1,40 @@
-function loadPage(page) {
+
+//Changing dix inside text
+function loadPage(page, element) {
   fetch(page)
     .then(response => response.text())
     .then(data => {
       document.getElementById("content").innerHTML = data;
     });
+
+  document.querySelectorAll(".menu-link").forEach(btn => {
+    btn.classList.remove("active-page");
+  });
+
+  // add active to clicked one
+  element.classList.add("active-page");
 }
+
 //Main Menu
-function toggleMenu() {
-    document.getElementById("menu").classList.toggle("active");
-}
-//Second Menu
-function toggleMenu2() {
-    document.getElementById("menu2").classList.toggle("active");
-}
-//Submenus
-function toggleSubmenu1() {
-    document.getElementById("submenu1").classList.toggle("active");
-}
+document.querySelectorAll(".body-menu-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+    const submenu = btn.nextElementSibling;
+
+    //close others (accordion style)
+    document.querySelectorAll(".body-submenu").forEach(m => {
+      if (m !== submenu) m.classList.remove("open");
+    });
+
+    submenu.classList.toggle("open");
+  });
+});
+
 //SubMenu
-function toggleSubmenu(button) {
-  const submenu = button.nextElementSibling;
-  submenu.classList.toggle("active");
-}
+document.querySelectorAll(".body-submenu-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+    const submenu = btn.nextElementSibling;
+    submenu.classList.toggle("open");
+  });
+});
