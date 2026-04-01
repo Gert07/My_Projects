@@ -131,7 +131,7 @@ body {
 .container2 {
   background-color: var(--bg);
   border-radius: 12px 0px 0px 12px;
-  padding: 5px 0px 5px 5px;
+  padding: 5px 10px 5px 10px;
   margin-right: 5px;
   color: var(--text);
   border: var(--border);
@@ -174,7 +174,7 @@ body {
   padding: 10px;
   cursor: pointer;
   border: none;
-  background-color: #5f0b05;
+  background-color: #700801;
   color: white;
 }
 
@@ -195,7 +195,7 @@ body {
 }
 
 .body-submenu button {
-  background-color: #5f0b05;
+  background-color: #7e3707;
   color: white;
   border-top: 1px solid #ccc;
   padding-left: 20px;
@@ -230,6 +230,5 @@ button:hover {
     background-size: cover;
     height: auto;
     color: white;
-    position: relative;
     top: 20px;
 }
