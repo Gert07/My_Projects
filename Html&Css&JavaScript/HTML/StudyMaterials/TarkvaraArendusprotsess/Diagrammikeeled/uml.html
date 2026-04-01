@@ -1,0 +1,122 @@
+<article>
+    <h1>UML diagrammikeel</h1>
+    
+    <h1>Mis on UML?</h1>
+    <p>
+            UML on visuaalne modelleerimiskeel, mis aitab tarvaraarenduses nii kliendile, arendajale endile kui
+        ka erinevatele muudele isikutele protsessi juures kuvada töpsemalt, milline arendatava toote sisemine
+        struktuur erinevatel tasanditel olema peaks. UML on aga ka harukeel, ehk teisisõnu on erinevaid 
+        diagrammiliike nende erinevate tasandite kuvamise jaoks väga palju. UML defineerib ära nende erinevate 
+        tasandite diagrammide notatsioonid, keskendudes siis nendel spetsiifilistel tasemetel vajamineva 
+        kirjeldusele. Tarkvaratoote käitumise kirjeldamiseks on näiteks käitumisdiagramm, Andmestruktuuri 
+        kirjeldamiseks on näiteks olmediagramm (ERD). Ja nii, erinevate aspektide kohta. UML-e kasutatakse 
+        nii uue arendustöö kirjeldamiseks, kui ka olemasoleva dokumenteerimiseks.
+    </p>
+    <h1>Kuidas UML tekkis?</h1>
+    <p>
+            UML tekkis vajadusest kujutdada objektorienteeritud programmeeimise jaoks ühtset keelt, mis kuvaks 
+        protsessi ilma koodita. Algselt tekkis see kui Grady Booch ja James Rumbaugh ühendasid oma diagrammikeeled 
+        kuhu siis aja jooksul tekkiski teisi harusid juurde. UML ise on akronüüm ingliskeelsest terminist 
+        "Unified Modeling Language" 
+    </p>
+    <h1>Mida saab kujutada UML-iga - ehk kui palju diagrammide liike olemas on?</h1>
+    <p>
+            Erinevaid UML liike on palju, näiteks:
+            <ul>
+                <li><a href="flowchart.html">Vooskeem (Flowchart)</a></li>
+                <li>Klassidiagramm (Class Diagram)</li>
+                <li>Objekti diagramm (Object Diagram)</li>
+                <li>Koostöödiagramm (Collaboration Diagram)</li>
+                <li><a href="ERD.html">Olemidigramm (Entity Relation Diagram)</a></li>
+                <li>Kasutuslooskeem (Use Case Diagram)</li>
+                <li>Olekuskeem (State diagram)</li>
+                <li>Tegevusdiagramm (Activity Diagram)</li>
+                <li>Komponendi Diagramm (Component Diagram)</li>
+                <li>Kommunikatsiooni Diagramm (Communication Diagram)</li>
+                <li>Ajastusskeem (Timing Diagramm)</li>
+                <li>Jadaskeem (Sequence Diagram)</li>
+                <li>Levitusskeem (Deployment Diagram)</li>
+                <li>Paketiskeem (Packet Diagram)</li>
+                <li>Profiilidiagramm (Profile Diagram)</li>
+            </ul>
+    </p>
+    <h1>Mõningaid UML liike</h1>
+    <h2>Kasutuslooskeem</h2>
+    <p>
+    Üks peamisi tööriistu süsteemi analüüsis ja disainis. Diagramm avaldab süsteemi ja 
+    kasutajate (aktorite) vahelisi suhteid, näidates, kuidas kasutajad suhtlevad süsteemi
+    komponentidega ja milliseid teenuseid süsteem pakub.
+    <ul>
+        <li><b>Aktorid</b> - Aktorit kujutatakse sageli inimesena, et rõhutada tema rolli protsessis.</li>
+        <li><b>Kasutusjuhtumid</b> - Kujutatud ovaalidena ja tähistavad tegevusi või teenuseid.</li>
+        <li><b>Ühendused</b> - Kasutusjuhtumite ja aktorite vahelised ühendused tehakse joonte või
+        noolte abil. Noole suund määrab, kes teenust küsib või pakub.</li>
+    </ul>
+    <img height="600" src="../Joonised/Muud uml skeemid/Kasutuslooskeem.png"><br>
+    <a href="https://mariasmolina24.thkit.ee/wp/use-case-diagram/">Allikas (Marias Molina)</a>
+    </p>
+    <h2>Klassi diagramm</h2>
+    <p>
+    Klassi diagramm on visuaalne kujutis, mida kasutatakse objektorienteeritud süsteemide
+    kavandamiseks ja mõistmiseks. See on staatiline struktuuridiagramm, mis esitab süsteemi
+    klasse, nende omadusi ja operatsioone ning klassidevahelisi seoseid, kirjeldades seeläbi
+    süsteemi ülesehitust.
+    <ul>
+        <li><b>Nimed</b> - Esimene rida, mida näete klassikujul.</li>
+        <li><b>Atribuudid</b> - Teine rida, seal kujutatakse atribuudid.</li>
+        <li><b>Meetodid</b> - Kolmas rida, seal kujutatakse operatsioone.</li>
+        <li><b>Signaal</b> - Kujutab asünkroonset sidet objektide vahel.</li>
+        <li><b>Andmetüübid</b> - Määrab andmete väärtused.</li>
+        <li><b>Liidesed</b> - Käitumiste kogum, mis on määratletud operatsioonide allkirjade ja
+        atribuutide definitsioonide kogumiga. Klassid ja liidesed on sarnased, kuid liides
+        nõuab selle rakendamiseks vähemalt ühte klassi.</li>
+        <li><b>Loendused</b> - Koosneb identifiaatorite rühmitusest, mis tähistavad loendi väärtusi.</li>
+        <li><b>Objektid</b> - Lisab objektid, et esindada prototüüpseid juhtumeid või konkreetseid
+        juhtumeid.</li>
+        <li><b>Interaktsioonid</b> - Viitab erinevatele seostele ja suhetele, mida võib näha
+        klassi- ja objektidiagrammis.</li>
+    </ul>
+    <img height="600" src="../Joonised/Muud uml skeemid/Klassi diagramm.png"><br>
+    <a href="https://www.mindonmap.com/et/blog/what-is-uml-class-diagram/">Allikas (mindonmap)</a>
+    </p>
+    <h2>Jadaskeem</h2>
+    <p>
+    See on skeem, mis esitab objekti interaktsioonid ajalises järjestuses. Skeemil on näha
+    interaktsioonis osalevad objektid ja vahetavate sõnumite jada.
+    <ul>
+        <li><b>Osaleja</b> - Paikneb skeemi ülemises osas, kelle eluliin kulgeb vertikaalselt
+        allapoole.</li>
+        <li><b>Nooled</b> - Tähistatud sõnumid, mida objektid üksteisele saadavad, ning nende
+        järjekord näitab tegevuste ajalist kulgu.</li>
+    </ul>
+    <img height="600" src="../Joonised/Muud uml skeemid/Jadaskeem.png"><br>
+    <a href="https://www.tud.ttu.ee/im/Vladimir.Viies/materials/YLDINEkaust/UML/UML_lyhiülevaade.pdf">Allikas (ttu)</a>
+    </p>
+    <h2>Olekuskeem</h2>
+    <p>
+    Näitab erinevaid olekuid, mida läbivad süsteemis olevad objektid oma elutsükli jooksul.
+    Süsteemis olevad objektid muudavad oma olekut vastavalt süsteemis toimuvatele sündmustele.
+    <ul>
+        <li><b>Algtegevus</b> - Kujutatakse musta ringiga</li>
+        <li><b>Tegevus</b> - Kujutatakse ümmarguste nurkadega nelinurgana</li>
+        <li><b>Otsustused</b> - Kujutatakse rombidega</li>
+        <li><b>Signaal</b> - Kujutatakse joone või noolega</li>
+    </ul>
+    <img height="300" src="../Joonised/Muud uml skeemid/Oleku skeem.png"><br>
+    <a href="https://www.mindonmap.com/et/blog/what-is-uml-diagram/">Allikas (mindonmap)</a>
+    </p>
+    <h2>Tegevusdiagramm</h2>
+    <p>
+    Kasutatakse süsteemis toimuvate sündmuste kujutamiseks. Tegemist on dünaamilise skeemiga, mis
+    näitab tegevust ning ka sündmust mis põhjustab objekti teatud olekus olemist.
+    <ul>
+        <li><b>Algtegevus</b> - Kujutatakse musta ringiga</li>
+        <li><b>Tegevus</b> - Kujutatakse ümmarguste nurkadega nelinurgana</li>
+        <li><b>Otsustused</b> - Kujutatakse rombidega</li>
+        <li><b>Signaal</b> - Kujutatakse joone või noolega</li>
+    </ul>
+    <img height="800" src="../Joonised/Muud uml skeemid/Tegevusskeem.png"><br>
+    <a href="https://mariasmolina24.thkit.ee/wp/tegevusskeem/">Allikas (Marias Molina)</a>
+    <a href="https://et.wikipedia.org/wiki/Ühtne_modelleerimiskeel">Wikipedia (modelleerimiskeel)</a>
+    </p>
+</article>

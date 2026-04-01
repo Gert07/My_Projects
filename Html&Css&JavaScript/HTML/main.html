@@ -44,9 +44,18 @@
             <ul>
                 <li class="body-menu" id="menu">
                     <button onclick="toggleMenu()">Tarkvara Arendusprotsess</button>
-                    <div class="body-submenu">
-                        <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/agile.html')">Agile</button>
-                        <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/bigbang.html')">BigBang</button>
+                    <div class="body-submenu" id="submenu1">
+                        <button>Arendusmudelid</button>
+                        <div class="body-submenu2">
+                            <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/Arendusmudelid/agile.html')">Agile</button>
+                            <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/Arendusmudelid/bigbang.html')">BigBang</button>
+                        </div>
+                        <button onclick="toggleSubmenu()">Diagrammikeeled</button>
+                        <div class="body-submenu">
+                            <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/Diagrammikeeled/erd.html')">Entity Relationship Diagram</button>
+                            <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/Diagrammikeeled/flowchart.html')">Flowchart</button>
+                            <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/Diagrammikeeled/uml.html')">Unified Modeling Language</button>
+                        </div>
                     </div>
                 </li>
                 <li class="body-menu" id="menu2">

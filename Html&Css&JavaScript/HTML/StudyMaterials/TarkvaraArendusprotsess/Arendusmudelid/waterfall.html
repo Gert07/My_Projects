@@ -1,0 +1,75 @@
+<article>
+    <h1>Kosemudel</h1>
+        <p>
+            Kosemudel (Waterfall) on üks esimesi tarkvaraarenduse elutsükli mudeleid. Ta põhineb tavalise 
+            tootmisprotsessi eeskujul. Kus iga etapp eelneb järgmisele. Tagasipöördumine eelmisesse etappi on
+            keeruline ning kui eelnevas etapis avastatakse viga, tähendab see seda, et vea juurde saab tagasi
+            tulla alles siis kui tarkvara on kasutusse läinud.
+        </p>
+    <h2>Kosemudeli etapid: </h2>
+        <p>
+            Kosemudel koosneb viiest etapist, mis rahuldab kõik üldise tarkvaraarenduse elutsükli etappe.
+            Nendeks on: Nõuete määratlemine, Süsteemi ja Tarkvara kavandamine, teostus ning moodulite testimine,
+            integratsioon ja süsteemi testimine ning kasutamine ja hooldus.
+        </p>
+        <h3>1. Etapp - Nõuete määratlemine</h3>
+            <p>
+                Siin etapis dokumenteeritakse arendatava toote või süsteemi nõudeid, käitumine, sihtriistvara jms.
+                Vahest jaotatakse see etapp kaheks - Süsteemi analüüs ja nõuete analüüs.
+            </p>
+        <h3>2. Etapp - Nõuete määratlemine</h3>
+            <p>
+                Teises etapis kavandatakse arendusele mineva tarkvaratoote süsteem ja struktuur keskendudes selle
+                funktsionaalsetele omadustele. Need võivad olla erinevad andmestruktuurid, toote enda arhitektuur,
+                erinevad liidesed, nende liideste omadused ja muud algorütmilised detailid. Kavandamise tulemused dokumenteeritakse,
+                ning mille järgi hiljem teostuses hinnatakse projketi kvaliteeti - Mida rohkem kavandist on tehtud,
+                seda rohkem on projektist valminud.
+            </p>
+        <h3>3. Etapp - Teostus ning moodulite testimine</h3>
+            <p>
+                Eelnevalt valminud kavandi järgi toimub selles etapis tootearendus. Arendustöö käigus arendatatakse
+                programm moodulite kogumikuna. Peale arendustööd testitakse valmis saanud mooduleid ja moodulikogumikke.
+                Olenevalt eelnevalt dokumenteeritud kavandi detailsusest tuleneb nüüd selles etapis projekti
+                arenduslihtsus. mida rohkem on detaile kavandatud, seda lihtam on arendustöö.
+            </p>
+        <h3>4. Etapp - Integratsioon ja süsteemi testimine</h3>
+            <p>
+                Toimub kogu valmissaadud tarkvarasüsteemi testimine. Peale testimist tarnitakse toode kliendile ja/või
+                sihtrühmale. testitakse sellest vaatepunktist, kas süsteem teeb seda mis eelnevalt dokumenteeritud ning
+                testitakse ka, et süsteemis olevad erinevad detailid on loogilised.
+            </p>
+        <h3>5. Etapp - Kasutamine ja hooldus</h3>
+            <p>
+                Tegu on kõige pikema tarkvara elutsüklis oleva etapiga. Siin toimub vigade parandus, funktsionaalsuse muutmine
+                (kas siis kliendi, turu, keskonna või sihtrühma sisendi tagajärjel või vajadusena) ja koodi enda refaktoreerimine
+                Arendustöö teostamiseks korratakse kõiki eelmiseid etappe kuid siis ainult süsteemi muutmise tarbeks mitte enam
+                nullist millegi uue arendamise jaoks.
+            </p>
+            <p>
+                Iga etapi tulemusena tekib dokument või dokumentatsioon (üks või mitu) mis kirjeldab vastavas etapis
+                saavutatud tulemit. Kõik dokumendid kinnitatakse. Järgmine etapp ei tohi olla samaaegselt töös kui
+                eelmine pole lõpetatud. Kuigi ülekate mingisugune siiski on ning info edastatakse ühest etapist järgmisesse
+                edasi.
+            </p>
+    <h2>Arendusmudeli joonis:</h2>
+        <img src="../Pildid/koskmudel.jpeg"/>
+    <h2>Arendusmudel head ja vead</h2>
+        <table>
+            <tr>
+                <td>Protsess toimub etappides</td>
+                <td>Keeruline tagasi pöörduda eelnevasse etappi</td>
+            </tr>
+            <tr>
+                <td>Igas etapis tekib dokument või dokumentatsioon</td>
+                <td>Järgmise etapi kallal ei saa töötada enne kui eelnev etapp pole lõpetatud</td>
+            </tr>
+            <tr>
+                <td>Sobib suurtele süsteemidele, mida arendatakse mitmes kohas eraldi</td>
+                <td>Klient ei saa nõudeid muuta protsessi tegemise ajal, peab eelnevalt asjad paika panema.</td>
+            </tr>
+        </table>
+    <p>
+        Viited infol: 
+        <a href="https://eopearhiiv.edu.ee/e-kursused/eucip/arendus/1221_koskmudel.html">e-õppearhiiv</a>
+    </p>
+</article>

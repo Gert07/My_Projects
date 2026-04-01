@@ -1,0 +1,70 @@
+<article>
+    <h1>Mis on ERD?</h1>
+        <p>
+            <b>ERD</b> ehk <b>Entity-Relationship Diagram (Olemisuhete diagramm).</b> See on kõige
+            laiemalt levinud metoodika andmemudelite koostamiseks ja kirjelduse esitamiseks.
+        </p>
+    <h2>Kuidas andmebaasi luuakse?</h2>
+        <p>
+            Andmebaasi luuakse samm-sammult. Esmalt koostatakse andmemudel, mis kirjeldatakse nii
+            detailselt, kui vaja on. Järgmiseks genereeritakse mudeli põhjal SQL-käsud <b>(Structured Query Language)</b>, mille abil luuakse füüsiline andmebaas. Kui aja jooksul ilmneb vajadus andmebaasi
+            struktuuri muuta, tehakse vastavad parandused või täiendused ERD-mudelisse ning selle alusel
+            koostatakse uued SQL-käsud, millega viiakse andmebaasi struktuur mudeliga vastavusse.
+        </p>
+    <h2>Mis on ERD põhi-komponendid?</h2>
+        <p>
+            ERD peamised osad on <b>olemid (entity)</b> ja olemite vahelised seosed. Iga olemi sisemine
+            ülesehitus koosneb atribuutidest. Seose kirjeldamisel tuuakse välja nende olemite vastavad
+            atribuutide paarid, mille kaudu seos tekib ja mis määravad, kuidas kaks olemit omavahel
+            seotud on. Seos saab eksisteerida alati kas kahe erineva olemi vahel või ka olemi ja tema
+            enda vahel. Kui seos eksisteerib olemi ja enda vahel moodustab see suletud tsükli. 
+        </p>
+    <h2>ERD võtmed (keyd):</h2>
+        <p>
+            <b>Primary key</b> - see on eriline olemi atribuut, mis määrab andmebaasitabeli kirje üheselt.
+            Ei tohi olla kahte või enamat kirjet, millel on primaarvõtme atribuudi väärtus.
+            <b>Foreign key</b> - see võti viitab teise tabeli primaarvõtmele. Seda kasutatakse
+            olemitevaheliste seoste tuvastamiseks. Võõrvõtme väärtused ei pea olema unikaalsed.
+            <b>Composite key</b> - kandidaadivõti, mis koosneb kahest või enamast atribuudist, mis 
+            üheskoos tuvastavad olemi esinemise üheselt.
+        </p>
+    <h2>ERD mudeli seletus ja skeem: </h2>
+        <p>
+            <ol>
+                <li>Andmemudeli graafiline esitlus - olemid, vaated ja nende vahelised seosed.</li>
+                <li>Tabelite sisemise struktuuri formaalsed kirjeldused - olemite atribuudid, atribuutide
+                    andmetüübid, piirangud ja indeksid.</li>
+                <li>Vaadete formaalsed kirjeldused - seletatakse lahti kuidas vaated olemite kaudu kirjelduvad</li>
+                <li>Olemite ja vaadete vaheliste seoste formaalsed kirjeldused - nii seoste väljade, kui ka
+                seoste tugevuste kirjeldused.</li>
+                <li>Mudeli komponentide verbaalsed kirjeldused - olemite, atribuutide, seoste, protseduuride
+                jm. semantika vabatekstiline kirjeldus.</li>
+            </ol>
+            <img height="130" src="../Joonised/ERD-skeemid/Lihtne .png">
+            <p>
+                See skeem kirjeldab vara ja isikute vahelisi seoseid. Skeem näitab toodud olemite semantikat.
+            </p>
+            <img height="180" src="../Joonised/ERD-skeemid/Lihtne atribuutidega.png">
+            <p>
+                Siin joonisel on näidatud olemite atribuudid. Atribuut on olemi kirjelduse madalaim tase,
+                mille kogum kirjeldab olemi struktuuri.
+                Siin joonisel on ka näha, et kõikidele atribuutidele on lisatud andmetüübid, pikkused ja
+                NULL/NOT NULL piirang, mis määrab, kas antud atribuut võib olla mõnes kirjes tühi (NULL)
+                või mitte (NOT NULL).
+            </p>
+            <h3>Sümbolite seletused: </h3>
+            <img height="120" src="../Joonised/ERD-skeemid/Sümboolika_koik.png">
+            <p>
+                Jonisel toodud sümbol on võetud metoodikast mida tuntakse IE(Information Engereering) all.
+                Välja toodud notatsioon on enim kasutatud. 
+            </p>
+            <img height="160" src="../Joonised/ERD-skeemid/Symboolika_seletused.png">
+        </p>
+    <p>
+        Viited allikale:
+    </p>
+    <a href="https://www.visual-paradigm.com/guide/data-modeling/what-is-entity-relationship-diagram/">Allikas1</a>
+    <a href="https://en.wikipedia.org/wiki/Composite_key">Allikas2</a>
+    <a href="https://en.wikipedia.org/wiki/Entity–relationship_model">Allikas3</a>
+    <a href="https://enos.itcollege.ee/~priit/1.%20Andmebaasid/2.%20Loengumaterjalid/04.%20Andmemudelid%20ja%20ERD.pdf">Allikas4</a>
+</article>
