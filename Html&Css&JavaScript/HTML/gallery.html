@@ -3,9 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="color-scheme" content="light dark">
+    <title>Search Data</title>
+    <link rel="stylesheet" href="../CSS/text.css">
+    <link rel="stylesheet" href="../CSS/base.css">
+    <link rel="stylesheet" href="../CSS/gallery.css">
+    <script src="../JavaScript/ContentChange.js"></script>
 </head>
-<body>
-    
+<body class="bg-all"
+    <!--? Header -->
+    <div class="headingText example2">
+        <h1>My Projects</h1>
+        <div class="nav-margin nav-shadow nav">
+            <ul class="">
+                <li><a href="./main.html" class="">Home</a></li>
+                <li class="dropdown">
+                    <button class="dropdown-btn">Projects</button>
+                    <div class="dropdown-content">
+                        <a href="#">C# Projects</a>
+                        <a href="#">JavaScript Projects</a>
+                        <a href="#">Python Projects</a>
+                    </div>
+                </li>
+                <li><a href="./gallery.html">Gallery</a></li>
+                <li class="dropdown nav-right"><a href="#">Contacts</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--? Body -->
+    <div class="bodyText pic-body">
+        <input type="text" id="search" placeholder="Search images...">
+        <div class="gallery">
+            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060833/1755528668831_vqizwf.jpg" alt="Bike Side">
+            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060305/1755528668806_zonyzu.jpg" alt="Bike Close-up Handlebars">
+            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775061980/1755528668855_hgvbbf.jpg" alt="Bike Front">
+            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060267/cld-sample-4.jpg" alt="Food Sweets">
+            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060263/samples/woman-on-a-football-field.jpg" alt="Woman Workout Posing">
+            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060261/samples/outdoor-woman.jpg" alt="woman posing">
+        </div>
+        <div id="lightbox">
+            <span id="close">&times;</span>
+            <img id="lightbox-img">
+        </div>
+    </div>
+    <!--? Footer -->
+    <div class="footerText example1 footerfix">
+        <div>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, consequuntur adipisci, quas itaque, sapiente consectetur voluptatem reiciendis corporis officiis doloribus quisquam eveniet! Ea ipsum aliquid laudantium hic dicta voluptate soluta.
+            </p>
+        </div>
+            <p>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente provident sit distinctio quasi? Architecto cum cumque suscipit, quod veritatis corporis eos illo animi vero itaque eveniet vitae, neque dolores aut.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit quis quas a, cupiditate laudantium ipsa nihil. Dolorum, ipsa! Ex ipsum et aut. Vitae ex eius quasi explicabo rem, nesciunt quod! lorem
+            </p>
+        </div>
+    </div>
 </body>
-</html>
+<script src="../JavaScript/Gallery.js"></script>
+</html> 
