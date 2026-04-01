@@ -2,21 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" | content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Data</title>
-    <link rel="stylesheet" | href="../CSS/navigation.css">
-    <link rel="stylesheet" href="../CSS/dropdown.css">
     <link rel="stylesheet" href="../CSS/text.css">
-    <link rel="stylesheet" href="../CSS/footer.css">
+    <link rel="stylesheet" href="../CSS/base.css">
+    <script src="../JavaScript/ContentChange.js"></script>
 </head>
 <body>
     <!--? Header -->
-    <div class="heading">
+    <div class="headingText example2">
         <h1>My Projects</h1>
-        <div class="nav-margin | nav-shadow | nav">
+        <div class="nav-margin nav-shadow nav">
             <ul class="">
-                <li class="navItems"><a href="#" | class="|">Home</a></li>
-                <li class="navItems | dropdown">
+                <li class=""><a href="./main.html" class="">Home</a></li>
+                <li class="dropdown">
                     <button class="dropdown-btn">Projects</button>
                     <div class="dropdown-content">
                         <a href="#">C# Projects</a>
@@ -24,7 +23,7 @@
                         <a href="#">Python Projects</a>
                     </div>
                 </li>
-                <li class="navItems | dropdown">
+                <li class="dropdown">
                     <button class="dropdown-btn">Study Materials</button>
                     <div class="dropdown-content">
                         <a href="#">Multimeedia</a>
@@ -32,16 +31,36 @@
                         <a href="#">TarkvaraArendusprotsess</a>
                     </div>
                 </li>
-                <li class="navItems | dropdown | nav-right"><a href="#">Contacts</a></li>
+                <li class="dropdown nav-right"><a href="#">Contacts</a></li>
             </ul>
         </div>
     </div>
     <!--? Body -->
-    <div>
-        
+    <div class="bodyText container">
+        <div id="content">
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt consectetur mollitia rem iste! Suscipit perspiciatis sequi iste accusantium repellendus. Cupiditate, temporibus dignissimos cumque laborum provident delectus doloremque quas nobis vero!</p>
+        </div>
+        <div class="body">
+            <ul>
+                <li class="body-menu" id="menu">
+                    <button onclick="toggleMenu()">Tarkvara Arendusprotsess</button>
+                    <div class="body-submenu">
+                        <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/agile.html')">Agile</button>
+                        <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/bigbang.html')">BigBang</button>
+                    </div>
+                </li>
+                <li class="body-menu" id="menu2">
+                    <button onclick="toggleMenu2()">Multimeedia</button>
+                    <div class="body-submenu">
+                        <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/agile.html')">Agile</button>
+                        <button onclick="loadPage('./StudyMaterials/TarkvaraArendusprotsess/bigbang.html')">BigBang</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
     <!--? Footer -->
-    <div class="footer | example1">
+    <div class="footerText example1">
         <div>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, consequuntur adipisci, quas itaque, sapiente consectetur voluptatem reiciendis corporis officiis doloribus quisquam eveniet! Ea ipsum aliquid laudantium hic dicta voluptate soluta.
@@ -51,8 +70,9 @@
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente provident sit distinctio quasi? Architecto cum cumque suscipit, quod veritatis corporis eos illo animi vero itaque eveniet vitae, neque dolores aut.
             </p>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit quis quas a, cupiditate laudantium ipsa nihil. Dolorum, ipsa! Ex ipsum et aut. Vitae ex eius quasi explicabo rem, nesciunt quod!
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit quis quas a, cupiditate laudantium ipsa nihil. Dolorum, ipsa! Ex ipsum et aut. Vitae ex eius quasi explicabo rem, nesciunt quod! lorem
             </p>
     </div>
 </body>
+<script src="../JavaScript/ContentChange.js"></script>
 </html> 

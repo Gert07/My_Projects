@@ -1,0 +1,182 @@
+/*! Navigation */
+
+.nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333333;
+  display: flex;
+  position: sticky;
+  border-radius: 12px;
+}
+.nav li {
+    min-width: 150px;
+}
+
+.nav ul li a {
+  display: block;
+  color: white;
+  padding: 15px 16px;
+  text-decoration: none;
+}
+.nav ul li a.active {
+    background-color: #c50d0d;
+}
+
+.nav ul li a:hover {
+    background-color: white;
+    color: black;
+}
+
+.nav-right {
+    margin-left: auto;
+}  
+
+.nav-margin {
+    margin: 20px 5px 10px 5px;
+}
+.nav-shadow {
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+
+/*? Navigation background */
+
+.example2 {
+    background-image: url(../HTML/MainPics/footer_background.jpg);
+    padding: 5px;
+    border-radius: 12px;
+    margin: 20px 5px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: auto;
+    color: white;
+}
+
+
+/*? Dropdown  */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  background-color: #5f0b05;
+  color: white;
+  padding: 18px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  min-width: 150px
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #5f0b05;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropdown-btn {
+  background-color: #c50d0d;
+}
+
+
+/*! Body */
+
+.container {
+  display: grid;
+  grid-template-columns: auto 300px;
+  margin: 5px;
+}
+
+/*? Body navigation */
+
+.body ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  background-color: #333333;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.body li a {
+  display: block;
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.body li a:hover {
+  background-color: #c50d0d;
+  color: white;
+}
+
+.body ul li a.active {
+  background-color: #c50d0d;
+}
+
+.body-menu {
+  width: 200px;
+  position: relative;
+}
+
+.body-menu button {
+  width: 100%;
+  padding: 0px;
+  cursor: pointer;
+  border: none;
+  background-color: #c50d0d;
+  color: white;
+}
+
+.body-submenu {
+  display: none;
+  background-color: #5f0b05;
+}
+
+.body-submenu button {
+  background-color: #f1f1f1;
+  color: black;
+  border-top: 1px solid #ccc;
+}
+
+.body-submenu button:hover {
+  background-color: #c50d0d;
+}
+
+.body-menu.active .body-submenu {
+  display: block;
+}
+
+/*! Footer */
+
+/*? Footer background */
+
+.example1 {
+    background-image: url(../HTML/MainPics/footer_background.jpg);
+    border-radius: 12px;
+    margin: 20px 5px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: auto;
+    color: white;
+}
