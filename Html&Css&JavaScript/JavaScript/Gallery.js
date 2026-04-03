@@ -31,3 +31,8 @@ images.forEach(img => {
 closeBtn.addEventListener("click", () => {
   lightbox.style.display = "none";
 });
+
+function openImg(src) {
+  document.getElementById('lightbox').style.display = 'block';
+  document.getElementById('lightbox-img').src = src;
+}

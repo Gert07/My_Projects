@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
     <title>Search Data</title>
-    <link rel="stylesheet" href="../CSS/text.css">
     <link rel="stylesheet" href="../CSS/base.css">
     <link rel="stylesheet" href="../CSS/gallery.css">
     <script src="../JavaScript/ContentChange.js"></script>
@@ -32,17 +31,16 @@
     </div>
     <!--? Body -->
     <div class="bodyText pic-body">
-        <input type="text" id="search" placeholder="Search images...">
+        <input class="style1" type="text" id="search" placeholder="Search images...">
         <div class="gallery">
-            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060833/1755528668831_vqizwf.jpg" alt="Bike Side">
-            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060305/1755528668806_zonyzu.jpg" alt="Bike Close-up Handlebars">
-            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775061980/1755528668855_hgvbbf.jpg" alt="Bike Front">
-            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060267/cld-sample-4.jpg" alt="Food Sweets">
-            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060263/samples/woman-on-a-football-field.jpg" alt="Woman Workout Posing">
-            <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060261/samples/outdoor-woman.jpg" alt="woman posing">
+            <img onclick="openImg(this.src)" src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060833/1755528668831_vqizwf.jpg" alt="Bike Side">
+            <img onclick="openImg(this.src)" src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060305/1755528668806_zonyzu.jpg" alt="Bike Close-up Handlebars">
+            <img onclick="openImg(this.src)" src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775061980/1755528668855_hgvbbf.jpg" alt="Bike Front">
+            <img onclick="openImg(this.src)" src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060267/cld-sample-4.jpg" alt="Food Sweets">
+            <img onclick="openImg(this.src)" src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060263/samples/woman-on-a-football-field.jpg" alt="Woman Workout Posing">
+            <img onclick="openImg(this.src)" src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060261/samples/outdoor-woman.jpg" alt="woman posing">
         </div>
-        <div id="lightbox">
-            <span id="close">&times;</span>
+        <div id="lightbox" onclick="this.style.display='none'">
             <img id="lightbox-img">
         </div>
     </div>
