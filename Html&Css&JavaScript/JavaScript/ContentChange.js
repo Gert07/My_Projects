@@ -1,5 +1,5 @@
 
-//Changing dix inside text
+//Changing div inside text
 function loadPage(page, element) {
   fetch(page)
     .then(response => response.text())
@@ -13,6 +13,11 @@ function loadPage(page, element) {
 
   // add active to clicked one
   element.classList.add("active-page");
+}
+
+//changing div with iframe
+function openFrame(page) {
+  document.getElementById("myframe").src = page;
 }
 
 //Main Menu
