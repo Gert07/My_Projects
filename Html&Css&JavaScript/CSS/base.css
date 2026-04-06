@@ -122,7 +122,13 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: auto 300px;
+  grid-template-columns: auto 400px;
+  margin: 5px;
+}
+
+.container5 {
+  display: grid;
+  grid-template-columns: auto 600px;
   margin: 5px;
 }
 
@@ -144,11 +150,28 @@ body {
   border: var(--border);
 }
 
+.container6 {
+  background-color: var(--bg);
+  border-radius: 12px 0px 0px 12px;
+  padding: 5px 10px 5px 10px;
+  margin-right: 5px;
+  color: var(--text);
+  border: var(--border);
+  align-items: center;
+}
+
 .container4 {
   background-color: var(--bg);
   border-radius: 0px 12px 12px 0px;
   padding: 5px 10px 5px 10px;
   margin-right: 5px;
+  color: var(--text);
+  border: var(--border);
+}
+
+.container7 {
+  background-color: var(--bg);
+  margin: 0;
   color: var(--text);
   border: var(--border);
 }
@@ -262,4 +285,27 @@ button:hover {
     text-align: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-style: italic;
+}
+#git-text {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-decoration: none;
+  height:max-content;
+  font-size: large;
+  align-items: center;
+}
+
+#gmail-text {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+/*? Icons */
+
+#icon {
+  position: relative;
+  align-items: center;
+  vertical-align: middle;
+  padding-right: 10px;
+  padding-top: 1px;
 }
