@@ -1,0 +1,28 @@
+<h1>Valgusfoor</h1>
+<h2>Kasutatud komponendid: </h2>
+    <ul>
+        <li>Arduino UNO plaat (1tk)</li>
+        <li>Arendusplaat (1tk)</li>
+        <li>Juhtmed (6tk)</li>
+        <li>Takisti (5tk, 220Ω)</li>
+        <li>LED punane (2tk)</li>
+        <li>LED kollane (1tk)</li>
+        <li>LED roheline (2tk)</li>
+    </ul>
+<h2>Töö protsessid: </h2>
+    <ul>
+        <li>Ühendasi ledid valgusfoori järjendades. Ühendasin vastavalt dioodid ja juhtmed.</li><br>
+        <li><b>Tavarežiim</b> - Kui autodel on roheline tuli, siis jalakäijatel on punane. Autode roheline tuli lõpeb rohelise vilkumisega, siis läheb põlema kollane ja peale seda punane. Paus 1 sekund. Läheb põlema jalakäijate roheline, tsükli lõpus vilgub ja läheb põlema punane tuli. Paus ja algusest.</li>
+        <li><b>Öörežiim</b> - Vilgub kollane tuli autodel ja jalakäijatel ei põle midagi. Hetkel tööab tsükliga kogu see krempel (3 korda tavarežiimi ja 2 öörežiimi).</li>
+    </ul>
+<h2>Skeem: </h2>
+    <img src="./Valgusfoor/Screenshot 2026-04-15 110314.png" alt="Skeem">
+<h2>Programm: </h2>
+    <iframe src="./Valgusfoor/Kood.txt" frameborder="0"></iframe>
+<h2>Video: </h2>
+    <iframe src="https://drive.google.com/file/d/1y-IvqbazBBhcnZwCkGFmqFKSaol-7JUH/preview" width="640" height="480"></iframe>
+<h2>Uued funktsioonid: </h2>
+    <ul>
+        <li><b>pinMode(redPin, OUTPUT)</b> - saab kaks väärtust, mille edastame talle sulgudes kohe pärast funktsiooni nime. Esimene on pordi number, teine on OUTPUT.</li>
+        <li><b>digitalWrite(redPin, HIGH)</b> - LED sees</li>
+    </ul>

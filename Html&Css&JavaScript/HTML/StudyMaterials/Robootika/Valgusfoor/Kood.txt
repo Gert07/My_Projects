@@ -1,0 +1,80 @@
+int redPin = 13;
+int yellowPin = 12;
+int greenPin = 11;
+
+int redWalkPin = 9;
+int greenWalkPin = 8;
+
+void setup()
+
+{
+
+  // pinMode() määrab töörežim
+
+  pinMode(redPin, OUTPUT);  // Punane (3-ne foor)
+  pinMode(yellowPin, OUTPUT);	// Kollane (3-ne foor)
+  pinMode(greenPin, OUTPUT);	// Roheline (3-ne foor)
+  pinMode(redWalkPin, OUTPUT);	// Punane (2-ne foor)
+  pinMode(greenWalkPin, OUTPUT);	// Roheline (2-ne foor)
+}
+
+void loop()
+{
+  for (int i = 0; i < 3; i++){
+  
+    digitalWrite(redWalkPin, HIGH); //Red pedestrian
+    digitalWrite(greenPin, HIGH); //Green cars
+
+    digitalWrite(yellowPin, LOW);
+    digitalWrite(redPin, LOW);
+    digitalWrite(greenWalkPin, LOW);
+    delay(5000);
+
+    for (int i = 0; i < 3; i++){	//Green blinking cars
+      digitalWrite(greenPin, LOW);
+      delay(500);
+      digitalWrite(greenPin, HIGH);
+      delay(500);
+    }
+
+    digitalWrite(greenPin, LOW);	//Yellow cars
+    digitalWrite(yellowPin, HIGH);
+    delay(1500);
+
+    digitalWrite(yellowPin, LOW);
+    digitalWrite(redPin, HIGH);
+
+    delay(1000);
+
+    digitalWrite(greenWalkPin, HIGH);
+    digitalWrite(redWalkPin, LOW);
+    delay(5000);
+
+    for (int i = 0; i < 3; i++){	//Green blinking pedestrian
+      digitalWrite(greenWalkPin, LOW);
+      delay(500);
+      digitalWrite(greenWalkPin, HIGH);
+      delay(500);
+    }
+
+    digitalWrite(greenWalkPin, LOW);
+    digitalWrite(redWalkPin, HIGH);
+    delay(1000);
+  }
+  
+  for (int i = 0; i < 2; i++){
+    digitalWrite(redWalkPin, LOW);
+    digitalWrite(greenWalkPin, LOW);
+    
+    digitalWrite(redPin, LOW);
+    digitalWrite(greenPin, LOW);
+    digitalWrite(yellowPin, LOW);
+    
+    for (int i = 0; i < 3; i++){
+      digitalWrite(yellowPin, HIGH);
+      delay(500);
+      digitalWrite(yellowPin, LOW);
+      delay(500);
+   }
+  }
+}
