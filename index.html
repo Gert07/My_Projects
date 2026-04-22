@@ -1,126 +1,508 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light dark">
-    <title>Home</title>
-    <link rel="stylesheet" href="assets/css/base.css">
-    <script src="./assets/javascript/ContentChange.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Martin Gert Puura — Projects</title>
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
 </head>
-<body class="bg-all"
-    <!--? Header -->
-    <div class="headingText example2">
-        <h1>My Projects</h1>
-        <div class="nav-margin nav-shadow nav">
-            <ul class="">
-                <li><a href="./index.html" class="">Home</a></li>
-                <li class="dropdown">
-                    <button class="dropdown-btn">Projects</button>
-                    <div class="dropdown-content">
-                        <a href="./projects/CSharp/CProjects.html">C# Projects</a>
-                        <a href="./projects/Javascript/JavascriptProjects.html">JavaScript Projects</a>
-                        <a href="./projects/Python/PythonProjects.html">Python Projects</a>
-                    </div>
-                </li>
-                <li><a href="./assets/html/gallery.html">Gallery</a></li>
-                <li class="dropdown nav-right"><a href="./assets/html/contacts.html">Contacts</a></li>
+<body>
+<!-- ═══════════════════════ TOPBAR ═══════════════════════ -->
+<header id="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-logo">
+      <span></span>MG
+    </div>
+    <nav>
+      <ul class="topbar-nav" id="topbar-nav-list">
+        <li>
+          <button class="nav-btn active" onclick="showView('home-view', this)">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1L1 7h2v7h4v-4h2v4h4V7h2z"/></svg>
+            Home
+          </button>
+        </li>
+        <li class="dropdown" id="nav-projects-dd">
+          <button class="nav-btn" onclick="toggleDropdown('nav-projects-dd', event)">
+            Projects <span class="caret">▾</span>
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="#" onclick="showView('csharp-view', null); closeAllDropdowns(); return false;">C# Projects</a></li>
+            <li><a href="#" onclick="showView('js-view', null); closeAllDropdowns(); return false;">JavaScript Projects</a></li>
+            <li><a href="#" onclick="showView('python-view', null); closeAllDropdowns(); return false;">Python Projects</a></li>
+          </ul>
+        </li>
+        <li>
+          <button class="nav-btn" onclick="showView('gallery-view', this)">
+            <svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+            Gallery
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" onclick="showView('contacts-view', this)">
+            <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg>
+            Contacts
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="theme-btn" title="Toggle dark/light mode" onclick="toggleTheme()">🌙</button>
+      <button class="todo-toggle-btn" id="todo-toggle-btn" title="To-Do List" onclick="toggleTodoPanel()">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v2H2zm0 4h12v2H2zm0 4h8v2H2z"/></svg>
+        <span class="todo-badge" id="todo-badge"></span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile nav -->
+  <nav id="mobile-nav">
+    <a href="#" onclick="showView('home-view',null); closeMobileNav(); return false;">🏠 Home</a>
+    <button onclick="toggleMobileSection('msec-projects')">📁 Projects ▾</button>
+    <div id="msec-projects" class="mobile-submenu" style="display:none">
+      <a href="#" onclick="showView('csharp-view',null); closeMobileNav(); return false;">C# Projects</a>
+      <a href="#" onclick="showView('js-view',null); closeMobileNav(); return false;">JavaScript Projects</a>
+      <a href="#" onclick="showView('python-view',null); closeMobileNav(); return false;">Python Projects</a>
+    </div>
+    <a href="#" onclick="showView('gallery-view',null); closeMobileNav(); return false;">🖼️ Gallery</a>
+    <a href="#" onclick="showView('contacts-view',null); closeMobileNav(); return false;">👤 Contacts</a>
+    <a href="#" onclick="toggleSidebarMobile(); closeMobileNav(); return false;">📚 Study Menu</a>
+  </nav>
+</header>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<div id="hero-section">
+  <div id="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">Software Development Student</div>
+      <h1 class="hero-title">Martin Gert <em>Puura</em></h1>
+      <div class="hero-meta">
+        <span class="hero-tag">
+          <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="7" r="3"/><path d="M8 1a6 6 0 010 12A6 6 0 018 1zm0 1.5a4.5 4.5 0 000 9 4.5 4.5 0 000-9z"/></svg>
+          Kiili, Estonia
+        </span>
+        <span class="hero-tag">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M10.5 1.5h-5l-4 5.5 6 7.5 6-7.5z"/></svg>
+          Software Development
+        </span>
+        <span class="hero-tag">
+          <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 4v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          2024–2027
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ APP ═══════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-section-title">Study Modules</div>
+    <ul class="sidebar-menu">
+
+      <!-- Tarkvara Arendusprotsess -->
+      <li>
+        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
+          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v12H2z" fill="none" stroke="currentColor" stroke-width="1.5" rx="2"/><path d="M5 8h6M5 5h6M5 11h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Tarkvara Arendusprotsess
+          <span class="smenu-caret">›</span>
+        </button>
+        <ul class="smenu-children">
+          <li>
+            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
+              Arendusmudelid <span class="smenu-caret">›</span>
+            </button>
+            <ul class="smenu-leaves">
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/agile.html', this)">Agile</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/bigbang.html', this)">Big Bang</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/devops.html', this)">DevOps</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/extreme-programming.html', this)">Extreme Programming</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/incremental.html', this)">Incremental</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/prototype.html', this)">Prototype</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/sdlc.html', this)">SDLC</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/spiral.html', this)">Spiral</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/v-shape.html', this)">V-Shape</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/waterfall.html', this)">Waterfall</button></li>
             </ul>
-        </div>
-    </div>
-    <!--? Body -->
-    <div class="bodyText container">
-        <div class="container2" id="content">
-            <h2>Kes ma olen?</h2>
-            <p>Nimi: <b>Martin Gert Puura</b></p>
-            <p>Mida ma teen: <b>Õpin tarkvaraarendamist</b></p>
-            <p>Kust ma tulen: <b>Kiili</b></p>
-        </div>
-        <div class="body container7">
-            <ul class="body-menu">
-                <li>
-                    <button class="body-menu-btn">Tarkvara Arendusprotsess</button>
-                    <ul class="body-submenu">
-
-                        <button class="body-submenu-btn">Arendusmudelid</button>
-                        <li class="body-submenu-content">
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/agile.html', this)">Agile</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/bigbang.html', this)">BigBang</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/devops.html', this)">DevOps</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/extreme-programming.html', this)">Extreme-programming</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/incremental.html', this)">Incremental</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/prototype.html', this)">Prototype</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/sdlc.html', this)">SDLC</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/spiral.html', this)">Spiral</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/v-shape.html', this)">V-shape</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Arendusmudelid/waterfall.html', this)">Waterfall</button>
-                        </li>
-
-                        <button class="body-submenu-btn">Diagrammikeeled</button>
-                        <li class="body-submenu-content">
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Diagrammikeeled/erd.html', this)">Entity Relationship Diagram</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Diagrammikeeled/flowchart.html', this)">Flowchart</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Diagrammikeeled/uml.html', this)">Unified Modeling Language</button>
-                        </li>
-
-                        <button class="body-submenu-btn">Project Libre</button>
-                        <li class="body-submenu-content">
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/Projekt/Projekt.html', this)">Projekt</button>
-                        </li>
-
-                        <button class="body-submenu-btn">Case</button>
-                        <li class="body-submenu-content">
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/CASE/index.html', this)">Üldiselt</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/CASE/lowercase.html', this)">Lowercase</button>
-                            <button class="menu-link" onclick="loadPage('./content/TarkvaraArendusprotsess/CASE/uppercase.html', this)">Uppercase</button>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <button class="body-menu-btn">Multimeedia</button>
-                    <ul class="body-submenu">
-                            <button class="menu-link" onclick="loadPage('./content/Multimeedia/animate.html', this)">Animate</button>
-                            <button class="menu-link" onclick="loadPage('./content/Multimeedia/davinci.html', this)">DaVinci</button>
-                            <button class="menu-link" onclick="loadPage('./content/Multimeedia/illustrator.html', this)">Illustrator</button>
-                            <button class="menu-link" onclick="loadPage('./content/Multimeedia/photoshop.html', this)">Photoshop</button>
-                    </ul>
-                </li>
-                <li>
-                    <button class="body-menu-btn">ITJuhtimine</button>
-                    <ul class="body-submenu">
-                            <button class="menu-link" onclick="loadPage('./content/ITJuhtimine/main.html', this)">Konspekt</button>
-                    </ul>
-                </li>
-                <li>
-                    <button class="body-menu-btn">Klienditeenindus ja juhtimine</button>
-                    <ul class="body-submenu">
-                            <button class="menu-link" onclick="loadPage('./content/Klienditeenindus ja suhtlus/osa1.html', this)">Konspekt</button>
-                    </ul>
-                </li>
-                <li>
-                    <button class="body-menu-btn">Robootika</button>
-                    <ul class="body-submenu">
-                            <button class="menu-link" onclick="loadPage('./content/Robootika/referaat.html', this)">Referaat</button>
-                            <button class="menu-link" onclick="loadPage('./content/Robootika/valgusfoor.html', this)">Valgusfoor</button>
-                    </ul>
-                </li>
+          </li>
+          <li>
+            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
+              Diagrammikeeled <span class="smenu-caret">›</span>
+            </button>
+            <ul class="smenu-leaves">
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Diagrammikeeled/erd.html', this)">Entity Relationship Diagram</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Diagrammikeeled/flowchart.html', this)">Flowchart</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Diagrammikeeled/uml.html', this)">UML</button></li>
             </ul>
+          </li>
+          <li>
+            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
+              Project Libre <span class="smenu-caret">›</span>
+            </button>
+            <ul class="smenu-leaves">
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Projekt/Projekt.html', this)">Projekt</button></li>
+            </ul>
+          </li>
+          <li>
+            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
+              CASE <span class="smenu-caret">›</span>
+            </button>
+            <ul class="smenu-leaves">
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/CASE/index.html', this)">Üldiselt</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/CASE/lowercase.html', this)">Lowercase</button></li>
+              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/CASE/uppercase.html', this)">Uppercase</button></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Multimeedia -->
+      <li>
+        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
+          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="3" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><polygon points="6,6 11,8 6,10" fill="currentColor"/></svg>
+          Multimeedia
+          <span class="smenu-caret">›</span>
+        </button>
+        <ul class="smenu-children">
+          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/animate.html', this)">Animate</button></li>
+          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/davinci.html', this)">DaVinci Resolve</button></li>
+          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/illustrator.html', this)">Illustrator</button></li>
+          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/photoshop.html', this)">Photoshop</button></li>
+        </ul>
+      </li>
+
+      <!-- IT Juhtimine -->
+      <li>
+        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
+          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1L1 5v6l7 4 7-4V5z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          IT Juhtimine
+          <span class="smenu-caret">›</span>
+        </button>
+        <ul class="smenu-children">
+          <li><button class="menu-link" onclick="loadContent('./content/ITJuhtimine/main.html', this)">Konspekt</button></li>
+        </ul>
+      </li>
+
+      <!-- Klienditeenindus -->
+      <li>
+        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
+          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          Klienditeenindus
+          <span class="smenu-caret">›</span>
+        </button>
+        <ul class="smenu-children">
+          <li><button class="menu-link" onclick="loadContent('./content/Klienditeenindus ja suhtlus/osa1.html', this)">Konspekt</button></li>
+        </ul>
+      </li>
+
+      <!-- Robootika -->
+      <li>
+        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
+          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="6" width="10" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="3" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v1" stroke="currentColor" stroke-width="1.5"/><circle cx="5.5" cy="9.5" r="1" fill="currentColor"/><circle cx="10.5" cy="9.5" r="1" fill="currentColor"/></svg>
+          Robootika
+          <span class="smenu-caret">›</span>
+        </button>
+        <ul class="smenu-children">
+          <li><button class="menu-link" onclick="loadContent('./content/Robootika/referaat.html', this)">Referaat</button></li>
+          <li><button class="menu-link" onclick="loadContent('./content/Robootika/valgusfoor.html', this)">Valgusfoor</button></li>
+          <li><button class="menu-link" onclick="loadContent('./content/Robootika/potensiomeeter.html', this)">Potensiomeeter</button></li>
+        </ul>
+      </li>
+
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content-area">
+
+    <!-- ── HOME VIEW ── -->
+    <div id="home-view" class="view active">
+      <div class="info-section">
+      <div class="home-grid">
+        <div class="info-card">
+          <div class="info-card-label">Full Name</div>
+          <div class="info-card-value">Martin Gert Puura</div>
         </div>
-    </div>
-    <!--? Footer -->
-    <div class="footerText example1">
-        <div>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, consequuntur adipisci, quas itaque, sapiente consectetur voluptatem reiciendis corporis officiis doloribus quisquam eveniet! Ea ipsum aliquid laudantium hic dicta voluptate soluta.
-            </p>
+        <div class="info-card">
+          <div class="info-card-label">Studying</div>
+          <div class="info-card-value">Software Development</div>
         </div>
-            <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente provident sit distinctio quasi? Architecto cum cumque suscipit, quod veritatis corporis eos illo animi vero itaque eveniet vitae, neque dolores aut.
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit quis quas a, cupiditate laudantium ipsa nihil. Dolorum, ipsa! Ex ipsum et aut. Vitae ex eius quasi explicabo rem, nesciunt quod! lorem
-            </p>
+        <div class="info-card">
+          <div class="info-card-label">Hometown</div>
+          <div class="info-card-value">Kiili, Estonia</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">School</div>
+          <div class="info-card-value">THKIT</div>
+        </div>
+      </div>
+      </div>
+
+      <div class="section-title section-title--glow">Study Modules</div>
+      <div class="module-grid">
+        <div class="module-card" onclick="openSidebarSection(0)">
+          <div class="module-card-icon">📋</div>
+          <div class="module-card-name">Tarkvara Arendusprotsess</div>
+          <div class="module-card-desc">Development models, diagrams, CASE tools</div>
+        </div>
+        <div class="module-card" onclick="openSidebarSection(1)">
+          <div class="module-card-icon">🎬</div>
+          <div class="module-card-name">Multimeedia</div>
+          <div class="module-card-desc">Animate, DaVinci, Illustrator, Photoshop</div>
+        </div>
+        <div class="module-card" onclick="openSidebarSection(2)">
+          <div class="module-card-icon">🏢</div>
+          <div class="module-card-name">IT Juhtimine</div>
+          <div class="module-card-desc">IT management and infrastructure</div>
+        </div>
+        <div class="module-card" onclick="openSidebarSection(3)">
+          <div class="module-card-icon">💬</div>
+          <div class="module-card-name">Klienditeenindus</div>
+          <div class="module-card-desc">Customer service & communication</div>
+        </div>
+        <div class="module-card" onclick="openSidebarSection(4)">
+          <div class="module-card-icon">🤖</div>
+          <div class="module-card-name">Robootika</div>
+          <div class="module-card-desc">Robotics projects and code</div>
+        </div>
+        <div class="module-card" onclick="showView('gallery-view', null)">
+          <div class="module-card-icon">🖼️</div>
+          <div class="module-card-name">Gallery</div>
+          <div class="module-card-desc">Photo gallery with lightbox</div>
+        </div>
+      </div>
     </div>
+
+    <!-- ── CONTENT VIEW ── -->
+    <div id="content-view" class="view">
+      <div class="content-header">
+        <button class="content-back" onclick="goBack()">← Back</button>
+        <div class="content-title" id="content-view-title">Content</div>
+      </div>
+      <div id="content">
+        <div class="content-loading"><div class="spinner"></div> Loading…</div>
+      </div>
+    </div>
+
+    <!-- ── GALLERY VIEW ── -->
+    <div id="gallery-view" class="view">
+      <div class="section-title" style="margin-bottom:16px">Gallery</div>
+      <input class="gallery-search" type="text" id="gallery-search" placeholder="Search images by name…" oninput="filterGallery(this.value)" />
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="gallery-item" data-alt="Bike Side" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060833/1755528668831_vqizwf.jpg" alt="Bike Side" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Bike Side</div>
+        </div>
+        <div class="gallery-item" data-alt="Bike Close-up Handlebars" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060305/1755528668806_zonyzu.jpg" alt="Bike Close-up Handlebars" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Bike Handlebars</div>
+        </div>
+        <div class="gallery-item" data-alt="Bike Front" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775061980/1755528668855_hgvbbf.jpg" alt="Bike Front" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Bike Front</div>
+        </div>
+        <div class="gallery-item" data-alt="Food Sweets" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060267/cld-sample-4.jpg" alt="Food Sweets" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Food Sweets</div>
+        </div>
+        <div class="gallery-item" data-alt="Woman Workout Posing" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060263/samples/woman-on-a-football-field.jpg" alt="Woman Workout Posing" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Woman Workout</div>
+        </div>
+        <div class="gallery-item" data-alt="Woman Posing" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060261/samples/outdoor-woman.jpg" alt="Woman Posing" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Outdoor Woman</div>
+        </div>
+        <div class="gallery-item" data-alt="Mountain Landscape" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/mountain/800/600" alt="Mountain Landscape" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Mountain Landscape</div>
+        </div>
+        <div class="gallery-item" data-alt="Forest Path" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/forest/800/600" alt="Forest Path" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Forest Path</div>
+        </div>
+        <div class="gallery-item" data-alt="City Skyline" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/citynight/800/600" alt="City Skyline" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">City Skyline</div>
+        </div>
+        <div class="gallery-item" data-alt="Ocean Waves" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/ocean/800/600" alt="Ocean Waves" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Ocean Waves</div>
+        </div>
+        <div class="gallery-item" data-alt="Architecture Building" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/architecture/800/600" alt="Architecture Building" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Architecture</div>
+        </div>
+        <div class="gallery-item" data-alt="Winter Snow" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/wintersnow/800/600" alt="Winter Snow" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Winter Snow</div>
+        </div>
+        <div class="gallery-item" data-alt="Sunset Sky" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/sunset/800/600" alt="Sunset Sky" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Sunset Sky</div>
+        </div>
+        <div class="gallery-item" data-alt="Road Travel Highway" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="https://picsum.photos/seed/roadtrip/800/600" alt="Road Travel Highway" loading="lazy" />
+          <div class="gallery-item-overlay"></div>
+          <div class="gallery-item-label">Road Trip</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTACTS VIEW ── -->
+    <div id="contacts-view" class="view">
+      <div class="section-title" style="margin-bottom:16px">Contacts</div>
+      <div class="contacts-grid">
+        <div class="contact-card">
+          <h3>My Info</h3>
+          <div class="contact-row">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C5.2 0 3 2.2 3 5c0 3.7 5 11 5 11s5-7.3 5-11c0-2.8-2.2-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
+            Kiili, Estonia
+          </div>
+          <div class="contact-row">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v10H2z" fill="none" stroke="currentColor" stroke-width="1.5" rx="1"/><path d="M2 3l6 5 6-5" stroke="currentColor" stroke-width="1.5"/></svg>
+            <a href="mailto:puuramartin@gmail.com">puuramartin@gmail.com</a>
+          </div>
+          <div class="contact-row">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.6 0 0 3.6 0 8c0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4v-1.4c-2.2.5-2.7-1.1-2.7-1.1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.2 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.5 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.8-3.7 4 .3.2.5.7.5 1.4v2.1c0 .2.1.5.5.4C13.7 14.5 16 11.5 16 8c0-4.4-3.6-8-8-8z"/></svg>
+            <a href="https://github.com/repos" target="_blank">GitHub Repos</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <h3>Klassikaaslased</h3>
+          <ul class="classmates-list">
+            <li><a href="https://sergeihuvenen25.thkit.ee/" target="_blank">Sergei Hüvenen</a></li>
+            <li><a href="https://vladkangur25.thkit.ee/" target="_blank">Vlad Kangur</a></li>
+            <li><a href="https://anvarkubja25.thkit.ee/" target="_blank">Anvar Kubja</a></li>
+            <li><a href="https://kristokundrats25.thkit.ee/" target="_blank">Kristo Kundrats</a></li>
+            <li><a href="https://katrilotamois24.thkit.ee/" target="_blank">Katri Lotamõis</a></li>
+            <li><a href="https://villemmannard25.thkit.ee/" target="_blank">Villem Männard</a></li>
+            <li><a href="https://stiivenottens25.thkit.ee/" target="_blank">Stiiven Ottens</a></li>
+            <li><a href="https://martingertpuura25.thkit.ee/" target="_blank">Martin Gert Puura</a></li>
+            <li><a href="https://kerlyritsu25.thkit.ee/" target="_blank">Kerly Ritsu</a></li>
+            <li><a href="https://jurisarki25.thkit.ee/" target="_blank">Juri Särki</a></li>
+            <li><a href="https://rihosepp25.thkit.ee/" target="_blank">Riho Sepp</a></li>
+            <li><a href="https://romeosergejev25.thkit.ee/" target="_blank">Romeo Sergejev</a></li>
+            <li><a href="https://sigridsormus25.thkit.ee/" target="_blank">Sigrid Sõrmus</a></li>
+            <li><a href="https://aleksandrvassiljuk25.thkit.ee/" target="_blank">Aleksandr Vassiljuk</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CSHARP VIEW ── -->
+    <div id="csharp-view" class="view">
+      <div class="section-title" style="margin-bottom:16px">C# Projects</div>
+      <div class="projects-list">
+        <div class="project-card">
+          <div class="project-card-lang lang-cs">C#</div>
+          <h4>C# Projects</h4>
+          <p>Projects and exercises completed in C# — see the full list in the projects folder.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── JAVASCRIPT VIEW ── -->
+    <div id="js-view" class="view">
+      <div class="section-title" style="margin-bottom:16px">JavaScript Projects</div>
+      <div class="projects-list">
+        <div class="project-card project-card-link" onclick="window.open('./projects/Javascript/Notes/main.html', '_blank')">
+          <div class="project-card-lang lang-js">JavaScript</div>
+          <h4>Notes App</h4>
+          <p>A simple note-taking application built in JavaScript.</p>
+          <span class="project-open-btn">▶ Open App</span>
+        </div>
+        <div class="project-card project-card-link" onclick="window.open('./projects/Javascript/TodoList/main.html', '_blank')">
+          <div class="project-card-lang lang-js">JavaScript</div>
+          <h4>Todo List</h4>
+          <p>An interactive task manager with edit and delete functionality.</p>
+          <span class="project-open-btn">▶ Open App</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PYTHON VIEW ── -->
+    <div id="python-view" class="view">
+      <div class="section-title" style="margin-bottom:16px">Python Projects</div>
+      <div class="projects-list">
+        <div class="project-card">
+          <div class="project-card-lang lang-py">Python</div>
+          <h4>Python Projects</h4>
+          <p>Various Python exercises and scripts from coursework.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── TODO PANEL ── -->
+<div id="todo-backdrop" onclick="closeTodoPanel()"></div>
+<aside id="todo-panel">
+  <div class="todo-panel-header">
+    <span class="todo-panel-title">To-Do List</span>
+    <button class="todo-panel-close" onclick="closeTodoPanel()">✕</button>
+  </div>
+
+  <div class="todo-progress-wrap">
+    <div class="todo-progress">
+      <svg class="todo-progress-svg" viewBox="0 0 36 36">
+        <circle class="todo-progress-bg"  cx="18" cy="18" r="15.9"/>
+        <circle class="todo-progress-bar" cx="18" cy="18" r="15.9" id="todo-progress-arc"/>
+      </svg>
+      <div class="todo-progress-inner">
+        <span class="todo-progress-pct" id="todo-progress-pct">0%</span>
+        <span class="todo-progress-lbl">done</span>
+      </div>
+    </div>
+    <div class="todo-progress-stats" id="todo-progress-stats">0 of 0 tasks</div>
+  </div>
+
+  <form class="todo-add-form" id="todo-add-form" onsubmit="addTodo(event)">
+    <input class="todo-input" id="todo-input" type="text" placeholder="Add a task…" autocomplete="off" />
+    <button class="todo-add-btn" type="submit">+</button>
+  </form>
+  <div class="todo-filters">
+    <button class="todo-filter active" data-filter="all"    onclick="setFilter('all',this)">All</button>
+    <button class="todo-filter"        data-filter="active" onclick="setFilter('active',this)">Active</button>
+    <button class="todo-filter"        data-filter="done"   onclick="setFilter('done',this)">Done</button>
+  </div>
+  <ul class="todo-list" id="todo-list"></ul>
+  <div class="todo-empty" id="todo-empty">No tasks yet.</div>
+</aside>
+
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox" onclick="closeLightbox(event)">
+  <button id="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">✕</button>
+  <img id="lightbox-img" src="" alt="Gallery image" />
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2024 Martin Gert Puura &nbsp;·&nbsp; <a href="mailto:puuramartin@gmail.com">puuramartin@gmail.com</a> &nbsp;·&nbsp; <a href="https://martingertpuura25.thkit.ee/" target="_blank">thkit.ee</a></p>
+</footer>
+
+<script src="./assets/javascript/main.js" defer></script>
 </body>
-<script src="./assets/javascript/ContentChange.js"></script>
-</html> 
+</html>
