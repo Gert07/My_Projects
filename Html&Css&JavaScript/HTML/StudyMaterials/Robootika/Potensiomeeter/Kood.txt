@@ -1,0 +1,113 @@
+int sensorPin = 0;    	  
+
+int ledPins[] = {9, 10, 11, 12, 13};
+int arrayLength = sizeof(ledPins) / sizeof(ledPins[0]);		  
+
+int mode = 0;
+
+void setup() {       
+  for (int i = 0; i < arrayLength; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
+
+  Serial.begin(9600);
+}
+
+void loop() {   
+  int potValue = analogRead(A0);
+  mode = map(potValue, 0, 1023, 0, 4);
+  mode = constrain(mode, 0, 4);    					   
+  
+  switch (mode) {
+    case 0:
+      candleEffect();
+      break;
+
+    case 1: 
+      continousBlinking();
+      break;
+
+    case 2:
+      blinkAll();
+      break;
+
+    case 3:
+      continousLight();
+      break;
+
+    case 5:
+      allOn();
+      break;
+
+    case 4:
+      continousLightReversed();
+      break;
+
+  }
+}
+
+void candleEffect() {
+  for (int i = 0; i < arrayLength; i++) {
+    int flickerChance = random(0, 10); // 0–9
+    if (flickerChance < 3) { // Umbes 30% tõenäosus, et LED vilgub
+      digitalWrite(ledPins[i], HIGH);
+      delay(random(10, 100)); // juhuslik vilkumise kestus
+      digitalWrite(ledPins[i], LOW);
+      delay(random(10, 50));  // juhuslik paus
+    }
+  }
+}
+
+void continousBlinking() {
+  for (int i=0; i < arrayLength; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(500);
+    digitalWrite(ledPins[i], LOW);
+    delay(500);
+  }
+}
+
+void continousLight() {
+  for (int i=0; i < arrayLength; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(500);
+  }
+  delay(1000);
+  for (int i=0; i < arrayLength; i++) {
+    digitalWrite(ledPins[i], LOW);
+    delay(500);
+  }
+}
+
+void continousLightReversed() {
+  for (int i=0; i < arrayLength; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(500);
+  }
+  delay(1000);
+  for (int i = arrayLength; i >= 0; i--) {
+    digitalWrite(ledPins[i], LOW);
+    delay(500);
+  }
+}
+
+void allOn() {
+  for (int i=0; i < arrayLength; i++) {
+    digitalWrite(ledPins[i], HIGH);
+  }
+}
+
+void allOff() {
+  for (int i=0; i < arrayLength; i++) {
+    digitalWrite(ledPins[i], LOW);
+  }
+}
+
+void blinkAll() {
+  for (int i=0; i < arrayLength; i++) {
+    allOn();
+    delay(500);
+    allOff();
+    delay(500);
+  }
+}
