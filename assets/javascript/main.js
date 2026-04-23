@@ -45,6 +45,9 @@ function showView(id, btn) {
     document.querySelectorAll('.smenu-btn, .smenu-sub-btn').forEach(b => b.classList.remove('open'));
   }
 
+  if (id === 'gallery-view') loadGallery();
+  if (id === 'home-view')   loadWeather();
+
   window.scrollTo(0, 0);
 }
 
@@ -146,12 +149,80 @@ function closeAllDropdowns() {
 document.addEventListener('click', closeAllDropdowns);
 
 /* ── Gallery ────────────────────────────────────────────── */
+let galleryData  = { categories: [], pictures: [] };
+let galActiveCat = 'all';
+let galActiveSub = 'all';
+let galSearch    = '';
+
+async function loadGallery() {
+  try {
+    const res  = await fetch('/api/gallery');
+    galleryData = await res.json();
+  } catch {
+    galleryData = { categories: [], pictures: [] };
+  }
+  renderGalFilters();
+  renderGalGrid();
+}
+
+function renderGalFilters() {
+  const catsEl = document.getElementById('gallery-cats');
+  if (!catsEl) return;
+  const cats = [{ id: 'all', name: 'All' }, ...(galleryData.categories || [])];
+  catsEl.innerHTML = cats.map(c =>
+    `<button class="gallery-cat-btn${c.id === galActiveCat ? ' active' : ''}" onclick="setGalCat('${c.id}')">${c.name}</button>`
+  ).join('');
+  renderGalSubFilter();
+}
+
+function renderGalSubFilter() {
+  const subsEl = document.getElementById('gallery-subs');
+  if (!subsEl) return;
+  if (galActiveCat === 'all') { subsEl.innerHTML = ''; return; }
+  const cat = (galleryData.categories || []).find(c => c.id === galActiveCat);
+  if (!cat || !cat.subcategories.length) { subsEl.innerHTML = ''; return; }
+  const subs = [{ id: 'all', name: 'All' }, ...cat.subcategories.map(s => ({ id: s, name: s }))];
+  subsEl.innerHTML = subs.map(s =>
+    `<button class="gallery-cat-btn gallery-sub-btn${s.id === galActiveSub ? ' active' : ''}" onclick="setGalSub('${s.id}')">${s.name}</button>`
+  ).join('');
+}
+
+function setGalCat(catId) {
+  galActiveCat = catId;
+  galActiveSub = 'all';
+  renderGalFilters();
+  renderGalGrid();
+}
+
+function setGalSub(sub) {
+  galActiveSub = sub;
+  renderGalSubFilter();
+  renderGalGrid();
+}
+
 function filterGallery(val) {
-  const q = val.toLowerCase();
-  document.querySelectorAll('#gallery-grid .gallery-item').forEach(item => {
-    const alt = item.getAttribute('data-alt').toLowerCase();
-    item.style.display = alt.includes(q) ? '' : 'none';
-  });
+  galSearch = val;
+  renderGalGrid();
+}
+
+function renderGalGrid() {
+  const grid = document.getElementById('gallery-grid');
+  if (!grid) return;
+  let pics = galleryData.pictures || [];
+  if (galActiveCat !== 'all') pics = pics.filter(p => p.category    === galActiveCat);
+  if (galActiveSub !== 'all') pics = pics.filter(p => p.subcategory === galActiveSub);
+  if (galSearch)              pics = pics.filter(p => (p.alt || p.label || '').toLowerCase().includes(galSearch.toLowerCase()));
+
+  if (!pics.length) {
+    grid.innerHTML = '<p style="color:var(--text-muted);padding:20px;">No images found.</p>';
+    return;
+  }
+  grid.innerHTML = pics.map(p => `
+    <div class="gallery-item" data-alt="${escapeHtml(p.alt || p.label || '')}" data-url="${escapeHtml(p.url)}" onclick="openLightbox(this.dataset.url)">
+      <img src="${escapeHtml(p.url)}" alt="${escapeHtml(p.alt || p.label || '')}" loading="lazy" />
+      <div class="gallery-item-overlay"></div>
+      <div class="gallery-item-label">${escapeHtml(p.label || p.alt || '')}</div>
+    </div>`).join('');
 }
 
 function openLightbox(src) {
@@ -165,12 +236,285 @@ function closeLightbox(e) {
   }
 }
 
+/* ── Gallery Add Modal ──────────────────────────────────── */
+function openGalleryAdd() {
+  const sel = document.getElementById('gad-cat-select');
+  if (sel) {
+    const cats = galleryData.categories || [];
+    sel.innerHTML = cats.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join('');
+    if (!cats.length) sel.innerHTML = '<option value="other">Other</option>';
+  }
+  document.getElementById('gad-error').textContent = '';
+  document.getElementById('gallery-add-form').reset();
+  updateSubSuggestions();
+  document.getElementById('gallery-add-modal').classList.add('open');
+}
+
+function closeGalleryAdd(e) {
+  if (e && e.target !== document.getElementById('gallery-add-modal')) return;
+  document.getElementById('gallery-add-modal').classList.remove('open');
+}
+
+async function submitGalleryAdd(e) {
+  e.preventDefault();
+  const btn = document.getElementById('gad-submit');
+  const err = document.getElementById('gad-error');
+  btn.disabled = true;
+  btn.textContent = 'Adding…';
+  err.textContent = '';
+
+  const body = {
+    url:         document.getElementById('gad-url').value.trim(),
+    label:       document.getElementById('gad-label-input').value.trim(),
+    category:    document.getElementById('gad-cat-select').value,
+    subcategory: document.getElementById('gad-sub-input').value.trim()
+  };
+
+  try {
+    const res = await fetch('/api/gallery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const data = await res.json();
+      err.textContent = data.error || 'Failed to add image.';
+    } else {
+      const pic = await res.json();
+      galleryData.pictures.push(pic);
+      document.getElementById('gallery-add-modal').classList.remove('open');
+      galActiveCat = pic.category;
+      galActiveSub = 'all';
+      renderGalFilters();
+      renderGalGrid();
+    }
+  } catch {
+    err.textContent = 'Network error.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Add Image';
+}
+
+/* ── Category Modal ──────────────────────────────────────── */
+function openCatModal() {
+  renderCatList();
+  document.getElementById('cat-name-err').textContent = '';
+  document.getElementById('cat-add-form').reset();
+  document.getElementById('cat-modal').classList.add('open');
+}
+
+function closeCatModal(e) {
+  if (e && e.target !== document.getElementById('cat-modal')) return;
+  document.getElementById('cat-modal').classList.remove('open');
+}
+
+function renderCatList() {
+  const el   = document.getElementById('cat-list');
+  const cats = galleryData.categories || [];
+  if (!cats.length) {
+    el.innerHTML = '<p class="cat-empty">No categories yet. Create one below.</p>';
+    return;
+  }
+  el.innerHTML = cats.map(c => `
+    <div class="cat-item">
+      <span class="cat-item-name">${escapeHtml(c.name)}</span>
+      <div class="cat-item-subs">
+        ${c.subcategories.length
+          ? c.subcategories.map(s => `<span class="cat-sub-tag">${escapeHtml(s)}</span>`).join('')
+          : '<span class="cat-no-subs">no subcategories</span>'}
+      </div>
+    </div>`).join('');
+}
+
+async function submitNewCat(e) {
+  e.preventDefault();
+  const errEl = document.getElementById('cat-name-err');
+  const btn   = document.getElementById('cat-submit-btn');
+  const name  = document.getElementById('cat-name-input').value.trim();
+  const raw   = document.getElementById('cat-subs-input').value.trim();
+  const subcategories = raw ? raw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+  errEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Creating…';
+
+  try {
+    const res  = await fetch('/api/gallery/categories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, subcategories })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      errEl.textContent = data.error || 'Failed to create category.';
+    } else {
+      galleryData.categories.push(data);
+      renderGalFilters();
+      renderCatList();
+      document.getElementById('cat-add-form').reset();
+    }
+  } catch {
+    errEl.textContent = 'Network error.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Create Category';
+}
+
+function updateSubSuggestions() {
+  const catId = document.getElementById('gad-cat-select').value;
+  const cat   = (galleryData.categories || []).find(c => c.id === catId);
+  const dl    = document.getElementById('gad-sub-list');
+  if (dl) dl.innerHTML = (cat?.subcategories || []).map(s => `<option value="${escapeHtml(s)}">`).join('');
+  document.getElementById('gad-sub-input').value = '';
+}
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('gallery-add-modal').classList.remove('open');
+    document.getElementById('cat-modal').classList.remove('open');
     closeTodoPanel();
   }
 });
+
+/* ── Home: Module List ──────────────────────────────────── */
+const MODULES = [
+  {
+    icon: '📋',
+    name: 'Tarkvara Arendusprotsess',
+    desc: 'Software development lifecycle, models, diagrams and CASE tools.',
+    topics: ['Agile', 'Waterfall', 'DevOps', 'SDLC', 'Spiral', 'UML', 'ERD', 'Flowchart'],
+    count: '17 topics',
+    sidebarIdx: 0
+  },
+  {
+    icon: '🎬',
+    name: 'Multimeedia',
+    desc: 'Creative media tools — animation, video editing, illustration and photo editing.',
+    topics: ['Animate', 'DaVinci Resolve', 'Illustrator', 'Photoshop'],
+    count: '4 topics',
+    sidebarIdx: 1
+  },
+  {
+    icon: '🏢',
+    name: 'IT Juhtimine',
+    desc: 'IT organization management, infrastructure and organizational structures.',
+    topics: ['IT Basics', 'MIS', 'Management Theory', 'Org Structures'],
+    count: '1 topic',
+    sidebarIdx: 2
+  },
+  {
+    icon: '💬',
+    name: 'Klienditeenindus',
+    desc: 'Communication, client interaction and conflict resolution skills.',
+    topics: ['Communication', 'Listening Skills', 'Conflict Resolution', 'Assertiveness'],
+    count: '1 topic',
+    sidebarIdx: 3
+  },
+  {
+    icon: '🤖',
+    name: 'Robootika',
+    desc: 'Arduino robotics — hardware, programming and hands-on experiments.',
+    topics: ['Traffic Light', 'Potentiometer', 'Arduino', 'Robotics Essay'],
+    count: '3 topics',
+    sidebarIdx: 4
+  }
+];
+
+function renderModuleList() {
+  const el = document.getElementById('module-list');
+  if (!el) return;
+  el.innerHTML = MODULES.map(m => `
+    <div class="mod-card" onclick="openSidebarSection(${m.sidebarIdx})">
+      <div class="mod-icon">${m.icon}</div>
+      <div class="mod-body">
+        <div class="mod-name">${escapeHtml(m.name)}</div>
+        <div class="mod-desc">${escapeHtml(m.desc)}</div>
+        <div class="mod-topics">
+          ${m.topics.map(t => `<span class="mod-topic">${escapeHtml(t)}</span>`).join('')}
+        </div>
+      </div>
+      <span class="mod-count">${m.count}</span>
+    </div>`).join('');
+}
+
+/* ── Home: Weather ──────────────────────────────────────── */
+const WMO = {
+  0:  { desc: 'Clear sky',            icon: '☀️'  },
+  1:  { desc: 'Mainly clear',         icon: '🌤️' },
+  2:  { desc: 'Partly cloudy',        icon: '⛅'  },
+  3:  { desc: 'Overcast',             icon: '☁️'  },
+  45: { desc: 'Foggy',                icon: '🌫️' },
+  48: { desc: 'Icy fog',              icon: '🌫️' },
+  51: { desc: 'Light drizzle',        icon: '🌦️' },
+  53: { desc: 'Drizzle',              icon: '🌦️' },
+  55: { desc: 'Heavy drizzle',        icon: '🌧️' },
+  61: { desc: 'Light rain',           icon: '🌧️' },
+  63: { desc: 'Rain',                 icon: '🌧️' },
+  65: { desc: 'Heavy rain',           icon: '🌧️' },
+  71: { desc: 'Light snow',           icon: '🌨️' },
+  73: { desc: 'Snow',                 icon: '❄️'  },
+  75: { desc: 'Heavy snow',           icon: '❄️'  },
+  77: { desc: 'Snow grains',          icon: '🌨️' },
+  80: { desc: 'Light showers',        icon: '🌦️' },
+  81: { desc: 'Showers',              icon: '🌧️' },
+  82: { desc: 'Heavy showers',        icon: '⛈️'  },
+  85: { desc: 'Snow showers',         icon: '🌨️' },
+  86: { desc: 'Heavy snow showers',   icon: '🌨️' },
+  95: { desc: 'Thunderstorm',         icon: '⛈️'  },
+  96: { desc: 'Thunderstorm + hail',  icon: '⛈️'  },
+  99: { desc: 'Severe thunderstorm',  icon: '⛈️'  }
+};
+
+let wxLoaded = false;
+
+async function loadWeather() {
+  if (wxLoaded) return;
+  try {
+    let lat = 59.3569, lon = 24.9370, city = 'Kiili, Estonia';
+
+    const pos = await new Promise((ok, fail) => {
+      if (!navigator.geolocation) { fail(); return; }
+      navigator.geolocation.getCurrentPosition(ok, fail, { timeout: 5000 });
+    }).catch(() => null);
+
+    if (pos) {
+      lat  = pos.coords.latitude;
+      lon  = pos.coords.longitude;
+      try {
+        const geo = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+          { headers: { 'Accept-Language': 'en' } }
+        ).then(r => r.json());
+        city = geo.address.city || geo.address.town || geo.address.village
+             || geo.address.county || 'Your location';
+      } catch { city = 'Your location'; }
+    }
+
+    document.getElementById('wx-city').textContent = city;
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
+      + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m`
+      + `&wind_speed_unit=kmh&timezone=auto`;
+
+    const data = await fetch(url).then(r => r.json());
+    const cur  = data.current;
+    const wmo  = WMO[cur.weather_code] || { desc: 'Unknown', icon: '❓' };
+
+    document.getElementById('wx-icon').textContent     = wmo.icon;
+    document.getElementById('wx-temp').textContent     = Math.round(cur.temperature_2m) + '°C';
+    document.getElementById('wx-desc').textContent     = wmo.desc;
+    document.getElementById('wx-feels').textContent    = Math.round(cur.apparent_temperature) + '°C';
+    document.getElementById('wx-wind').textContent     = Math.round(cur.wind_speed_10m) + ' km/h';
+    document.getElementById('wx-humidity').textContent = cur.relative_humidity_2m + '%';
+
+    wxLoaded = true;
+  } catch {
+    document.getElementById('wx-desc').textContent = 'Could not load weather.';
+  }
+}
 
 /* ── Todo Panel ─────────────────────────────────────────── */
 let todoFilter = 'all';
@@ -299,3 +643,7 @@ function setFilter(filter, btn) {
   btn.classList.add('active');
   renderTodos();
 }
+
+/* ── Init ───────────────────────────────────────────────── */
+renderModuleList();
+loadWeather();

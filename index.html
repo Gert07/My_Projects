@@ -77,23 +77,18 @@
 <!-- ═══════════════════════ HERO ═══════════════════════ -->
 <div id="hero-section">
   <div id="hero">
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-bg-word" aria-hidden="true">PORTFOLIO</div>
     <div class="hero-inner">
-      <div class="hero-badge">Software Development Student</div>
+      <div class="hero-badge">Software Development · THKIT</div>
       <h1 class="hero-title">Martin Gert <em>Puura</em></h1>
       <div class="hero-meta">
         <span class="hero-tag">
-          <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="7" r="3"/><path d="M8 1a6 6 0 010 12A6 6 0 018 1zm0 1.5a4.5 4.5 0 000 9 4.5 4.5 0 000-9z"/></svg>
-          Kiili, Estonia
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C5.2 0 3 2.2 3 5c0 3.7 5 11 5 11s5-7.3 5-11c0-2.8-2.2-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
+          Tallinn, Estonia
         </span>
         <span class="hero-tag">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M10.5 1.5h-5l-4 5.5 6 7.5 6-7.5z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
           Software Development
-        </span>
-        <span class="hero-tag">
-          <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 4v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-          2024–2027
         </span>
       </div>
     </div>
@@ -225,59 +220,64 @@
 
     <!-- ── HOME VIEW ── -->
     <div id="home-view" class="view active">
-      <div class="info-section">
-      <div class="home-grid">
-        <div class="info-card">
-          <div class="info-card-label">Full Name</div>
-          <div class="info-card-value">Martin Gert Puura</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card-label">Studying</div>
-          <div class="info-card-value">Software Development</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card-label">Hometown</div>
-          <div class="info-card-value">Kiili, Estonia</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card-label">School</div>
-          <div class="info-card-value">THKIT</div>
-        </div>
-      </div>
-      </div>
+      <div class="bento-grid">
 
-      <div class="section-title section-title--glow">Study Modules</div>
-      <div class="module-grid">
-        <div class="module-card" onclick="openSidebarSection(0)">
-          <div class="module-card-icon">📋</div>
-          <div class="module-card-name">Tarkvara Arendusprotsess</div>
-          <div class="module-card-desc">Development models, diagrams, CASE tools</div>
+        <!-- Profile -->
+        <div class="bento-card b-profile">
+          <div class="profile-avatar">MG</div>
+          <div>
+            <h2 class="profile-name">Martin Gert <span>Puura</span></h2>
+            <div class="profile-tags">
+              <span class="profile-tag">📍 Tallinn, Estonia</span>
+              <span class="profile-tag">🎓 THKIT</span>
+              <span class="profile-tag">💻 Software Development</span>
+            </div>
+          </div>
         </div>
-        <div class="module-card" onclick="openSidebarSection(1)">
-          <div class="module-card-icon">🎬</div>
-          <div class="module-card-name">Multimeedia</div>
-          <div class="module-card-desc">Animate, DaVinci, Illustrator, Photoshop</div>
+
+        <!-- Weather — spans full right column -->
+        <div class="bento-card b-weather" id="weather-card">
+          <div class="wx-header">
+            <span class="wx-header-title">Live Weather</span>
+            <span class="wx-city-name" id="wx-city">—</span>
+          </div>
+          <div class="wx-main">
+            <span class="wx-icon" id="wx-icon">⛅</span>
+            <span class="wx-temp" id="wx-temp">—</span>
+          </div>
+          <div class="wx-desc" id="wx-desc">Fetching data…</div>
+          <div class="wx-details">
+            <div class="wx-row"><span>Feels like</span><span id="wx-feels">—</span></div>
+            <div class="wx-row"><span>Wind</span><span id="wx-wind">—</span></div>
+            <div class="wx-row"><span>Humidity</span><span id="wx-humidity">—</span></div>
+          </div>
+          <div class="about-list" style="border-top:1px solid var(--border);margin-top:8px">
+            <div class="about-row"><span class="about-key">School</span><span class="about-val">THKIT</span></div>
+            <div class="about-row"><span class="about-key">Program</span><span class="about-val">Software Dev.</span></div>
+            <div class="about-row"><span class="about-key">Location</span><span class="about-val">Tallinn, Estonia</span></div>
+          </div>
         </div>
-        <div class="module-card" onclick="openSidebarSection(2)">
-          <div class="module-card-icon">🏢</div>
-          <div class="module-card-name">IT Juhtimine</div>
-          <div class="module-card-desc">IT management and infrastructure</div>
+
+        <!-- Stats -->
+        <div class="bento-card b-stat">
+          <div class="bstat-val">5</div>
+          <div class="bstat-lbl">Modules</div>
         </div>
-        <div class="module-card" onclick="openSidebarSection(3)">
-          <div class="module-card-icon">💬</div>
-          <div class="module-card-name">Klienditeenindus</div>
-          <div class="module-card-desc">Customer service & communication</div>
+        <div class="bento-card b-stat">
+          <div class="bstat-val">26+</div>
+          <div class="bstat-lbl">Topics</div>
         </div>
-        <div class="module-card" onclick="openSidebarSection(4)">
-          <div class="module-card-icon">🤖</div>
-          <div class="module-card-name">Robootika</div>
-          <div class="module-card-desc">Robotics projects and code</div>
+        <div class="bento-card b-stat">
+          <div class="bstat-val">3</div>
+          <div class="bstat-lbl">Languages</div>
         </div>
-        <div class="module-card" onclick="showView('gallery-view', null)">
-          <div class="module-card-icon">🖼️</div>
-          <div class="module-card-name">Gallery</div>
-          <div class="module-card-desc">Photo gallery with lightbox</div>
+
+        <!-- Study Modules -->
+        <div class="bento-card b-modules">
+          <div class="bento-section-label">Study Modules</div>
+          <div class="module-list" id="module-list"></div>
         </div>
+
       </div>
     </div>
 
@@ -295,78 +295,17 @@
     <!-- ── GALLERY VIEW ── -->
     <div id="gallery-view" class="view">
       <div class="section-title" style="margin-bottom:16px">Gallery</div>
-      <input class="gallery-search" type="text" id="gallery-search" placeholder="Search images by name…" oninput="filterGallery(this.value)" />
+      <div class="gallery-controls">
+        <div class="gallery-controls-top">
+          <input class="gallery-search" type="text" id="gallery-search" placeholder="Search images by name…" oninput="filterGallery(this.value)" />
+          <button class="gallery-mgr-btn" onclick="openCatModal()">Categories</button>
+          <button class="gallery-add-btn" onclick="openGalleryAdd()">+ Add Image</button>
+        </div>
+        <div class="gallery-cats" id="gallery-cats"></div>
+        <div class="gallery-subs" id="gallery-subs"></div>
+      </div>
       <div class="gallery-grid" id="gallery-grid">
-        <div class="gallery-item" data-alt="Bike Side" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060833/1755528668831_vqizwf.jpg" alt="Bike Side" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Bike Side</div>
-        </div>
-        <div class="gallery-item" data-alt="Bike Close-up Handlebars" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060305/1755528668806_zonyzu.jpg" alt="Bike Close-up Handlebars" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Bike Handlebars</div>
-        </div>
-        <div class="gallery-item" data-alt="Bike Front" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775061980/1755528668855_hgvbbf.jpg" alt="Bike Front" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Bike Front</div>
-        </div>
-        <div class="gallery-item" data-alt="Food Sweets" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060267/cld-sample-4.jpg" alt="Food Sweets" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Food Sweets</div>
-        </div>
-        <div class="gallery-item" data-alt="Woman Workout Posing" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060263/samples/woman-on-a-football-field.jpg" alt="Woman Workout Posing" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Woman Workout</div>
-        </div>
-        <div class="gallery-item" data-alt="Woman Posing" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060261/samples/outdoor-woman.jpg" alt="Woman Posing" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Outdoor Woman</div>
-        </div>
-        <div class="gallery-item" data-alt="Mountain Landscape" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/mountain/800/600" alt="Mountain Landscape" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Mountain Landscape</div>
-        </div>
-        <div class="gallery-item" data-alt="Forest Path" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/forest/800/600" alt="Forest Path" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Forest Path</div>
-        </div>
-        <div class="gallery-item" data-alt="City Skyline" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/citynight/800/600" alt="City Skyline" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">City Skyline</div>
-        </div>
-        <div class="gallery-item" data-alt="Ocean Waves" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/ocean/800/600" alt="Ocean Waves" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Ocean Waves</div>
-        </div>
-        <div class="gallery-item" data-alt="Architecture Building" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/architecture/800/600" alt="Architecture Building" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Architecture</div>
-        </div>
-        <div class="gallery-item" data-alt="Winter Snow" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/wintersnow/800/600" alt="Winter Snow" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Winter Snow</div>
-        </div>
-        <div class="gallery-item" data-alt="Sunset Sky" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/sunset/800/600" alt="Sunset Sky" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Sunset Sky</div>
-        </div>
-        <div class="gallery-item" data-alt="Road Travel Highway" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="https://picsum.photos/seed/roadtrip/800/600" alt="Road Travel Highway" loading="lazy" />
-          <div class="gallery-item-overlay"></div>
-          <div class="gallery-item-label">Road Trip</div>
-        </div>
+        <p style="color:var(--text-muted);padding:20px;">Loading gallery…</p>
       </div>
     </div>
 
@@ -378,7 +317,7 @@
           <h3>My Info</h3>
           <div class="contact-row">
             <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C5.2 0 3 2.2 3 5c0 3.7 5 11 5 11s5-7.3 5-11c0-2.8-2.2-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
-            Kiili, Estonia
+            Tallinn, Estonia
           </div>
           <div class="contact-row">
             <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v10H2z" fill="none" stroke="currentColor" stroke-width="1.5" rx="1"/><path d="M2 3l6 5 6-5" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -496,6 +435,71 @@
 <div id="lightbox" onclick="closeLightbox(event)">
   <button id="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">✕</button>
   <img id="lightbox-img" src="" alt="Gallery image" />
+</div>
+
+<!-- ── GALLERY ADD MODAL ── -->
+<div id="gallery-add-modal" onclick="closeGalleryAdd(event)">
+  <div class="gad-content" onclick="event.stopPropagation()">
+    <div class="gad-header">
+      <span class="gad-title">Add Image</span>
+      <button class="gad-close" onclick="closeGalleryAdd()">✕</button>
+    </div>
+    <form id="gallery-add-form" onsubmit="submitGalleryAdd(event)">
+      <div class="gad-field">
+        <label class="gad-label">Image URL <span style="color:var(--accent)">*</span></label>
+        <input class="gad-input" id="gad-url" type="url" placeholder="https://example.com/image.jpg" required />
+      </div>
+      <div class="gad-field">
+        <label class="gad-label">Label</label>
+        <input class="gad-input" id="gad-label-input" type="text" placeholder="Display label" />
+      </div>
+      <div class="gad-row">
+        <div class="gad-field">
+          <label class="gad-label">Category</label>
+          <select class="gad-input" id="gad-cat-select" onchange="updateSubSuggestions()"></select>
+        </div>
+        <div class="gad-field">
+          <label class="gad-label">Subcategory</label>
+          <input class="gad-input" id="gad-sub-input" type="text" placeholder="Optional" list="gad-sub-list" autocomplete="off" />
+          <datalist id="gad-sub-list"></datalist>
+        </div>
+      </div>
+      <div id="gad-error" class="gad-error"></div>
+      <div class="gad-actions">
+        <button type="button" class="gad-btn gad-btn-cancel" onclick="closeGalleryAdd()">Cancel</button>
+        <button type="submit" class="gad-btn gad-btn-submit" id="gad-submit">Add Image</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── CATEGORY MODAL ── -->
+<div id="cat-modal" onclick="closeCatModal(event)">
+  <div class="gad-content cat-modal-content" onclick="event.stopPropagation()">
+    <div class="gad-header">
+      <span class="gad-title">Manage Categories</span>
+      <button class="gad-close" onclick="closeCatModal()">✕</button>
+    </div>
+    <div class="cat-modal-body">
+      <div class="cat-list" id="cat-list"></div>
+      <div class="cat-divider"></div>
+      <form id="cat-add-form" onsubmit="submitNewCat(event)">
+        <p class="cat-add-heading">New Category</p>
+        <div class="gad-field">
+          <label class="gad-label">Name <span style="color:var(--accent)">*</span></label>
+          <input class="gad-input" id="cat-name-input" type="text" placeholder="e.g. Architecture" required />
+        </div>
+        <div class="gad-field">
+          <label class="gad-label">Subcategories <span style="color:var(--text-muted);font-weight:400">(comma-separated)</span></label>
+          <input class="gad-input" id="cat-subs-input" type="text" placeholder="e.g. Modern, Historic, Interior" />
+        </div>
+        <div id="cat-name-err" class="gad-error"></div>
+        <div class="gad-actions">
+          <button type="submit" class="gad-btn gad-btn-submit" id="cat-submit-btn">Create Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <!-- ── FOOTER ── -->
