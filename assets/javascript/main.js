@@ -644,6 +644,72 @@ function setFilter(filter, btn) {
   renderTodos();
 }
 
+function setupAmbientCanvas() {
+  const canvas = document.getElementById('ambient-canvas');
+  if (!canvas) return;
+
+  const context = canvas.getContext('2d');
+  const sparks = [];
+  const sparkCount = 36;
+
+  function resizeAmbientCanvas() {
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * ratio;
+    canvas.height = window.innerHeight * ratio;
+    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  }
+
+  function createSpark() {
+    return {
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radius: Math.random() * 1.8 + 0.8,
+      vx: Math.random() * 0.26 + 0.06,
+      vy: -(Math.random() * 0.2 + 0.04),
+      alpha: Math.random() * 0.22 + 0.04
+    };
+  }
+
+  function drawSpark(spark) {
+    context.beginPath();
+    context.fillStyle = `rgba(255, 255, 255, ${spark.alpha})`;
+    context.arc(spark.x, spark.y, spark.radius, 0, Math.PI * 2);
+    context.fill();
+
+    context.beginPath();
+    context.strokeStyle = `rgba(242, 140, 40, ${spark.alpha * 0.45})`;
+    context.lineWidth = 1;
+    context.moveTo(spark.x, spark.y);
+    context.lineTo(spark.x - spark.vx * 26, spark.y - spark.vy * 26);
+    context.stroke();
+  }
+
+  function renderAmbientCanvas() {
+    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    sparks.forEach((spark) => {
+      drawSpark(spark);
+      spark.x += spark.vx;
+      spark.y += spark.vy;
+
+      if (spark.x > window.innerWidth + 40 || spark.y < -40) {
+        spark.x = Math.random() * window.innerWidth * 0.4 - 20;
+        spark.y = window.innerHeight + Math.random() * 80;
+      }
+    });
+
+    requestAnimationFrame(renderAmbientCanvas);
+  }
+
+  resizeAmbientCanvas();
+  for (let i = 0; i < sparkCount; i += 1) sparks.push(createSpark());
+  window.addEventListener('resize', resizeAmbientCanvas);
+  requestAnimationFrame(renderAmbientCanvas);
+}
+
 /* ── Init ───────────────────────────────────────────────── */
+setupAmbientCanvas();
 renderModuleList();
 loadWeather();
