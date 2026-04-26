@@ -6,6 +6,11 @@ RewriteEngine On
 # Route /api/todos and /api/todos/123 to the PHP handler
 RewriteRule ^api/todos(/[0-9]+)?$ api/todos.php [QSA,L]
 
+# Route /api/gallery routes to the PHP handler
+RewriteRule ^api/gallery/categories/([^/]+)$ api/gallery.php [QSA,L]
+RewriteRule ^api/gallery/categories$ api/gallery.php [QSA,L]
+RewriteRule ^api/gallery(/[0-9]+)?$ api/gallery.php [QSA,L]
+
 # Cache static assets
 <IfModule mod_expires.c>
     ExpiresActive On

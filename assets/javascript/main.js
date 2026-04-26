@@ -192,12 +192,24 @@ function renderGalGrid() {
     grid.innerHTML = '<p style="color:var(--text-muted);padding:20px;">No images found.</p>';
     return;
   }
-  grid.innerHTML = pics.map(p => `
-    <div class="gallery-item" data-alt="${escapeHtml(p.alt || p.label || '')}" data-url="${escapeHtml(p.url)}" onclick="openLightbox(this.dataset.url)">
+
+  const catMap = Object.fromEntries((galleryData.categories || []).map(c => [c.id, c.name]));
+
+  grid.innerHTML = pics.map(p => {
+    const catName = catMap[p.category] || p.category || '';
+    const subName = p.subcategory || '';
+    const meta    = [catName, subName].filter(Boolean).join(' / ');
+    return `
+    <div class="gallery-item" data-id="${p.id}" data-url="${escapeHtml(p.url)}" onclick="openLightbox(this.dataset.url)">
       <img src="${escapeHtml(p.url)}" alt="${escapeHtml(p.alt || p.label || '')}" loading="lazy" />
       <div class="gallery-item-overlay"></div>
-      <div class="gallery-item-label">${escapeHtml(p.label || p.alt || '')}</div>
-    </div>`).join('');
+      <div class="gallery-item-info">
+        ${p.label || p.alt ? `<span class="gii-name">${escapeHtml(p.label || p.alt)}</span>` : ''}
+        ${meta              ? `<span class="gii-cat">${escapeHtml(meta)}</span>`               : ''}
+      </div>
+      <button class="gallery-item-edit-btn" onclick="event.stopPropagation();openGalleryEdit(${p.id})" title="Edit">✎</button>
+    </div>`;
+  }).join('');
 }
 
 function openLightbox(src) {
@@ -211,17 +223,43 @@ function closeLightbox(e) {
   }
 }
 
-/* ── Gallery Add Modal ──────────────────────────────────── */
+/* ── Gallery Add / Edit Modal ───────────────────────────── */
+let editingPictureId = null;
+
+function _populateCatSelect(selectedId) {
+  const sel  = document.getElementById('gad-cat-select');
+  const cats = galleryData.categories || [];
+  sel.innerHTML = cats.map(c =>
+    `<option value="${escapeHtml(c.id)}"${c.id === selectedId ? ' selected' : ''}>${escapeHtml(c.name)}</option>`
+  ).join('');
+  if (!cats.length) sel.innerHTML = '<option value="other">Other</option>';
+}
+
 function openGalleryAdd() {
-  const sel = document.getElementById('gad-cat-select');
-  if (sel) {
-    const cats = galleryData.categories || [];
-    sel.innerHTML = cats.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join('');
-    if (!cats.length) sel.innerHTML = '<option value="other">Other</option>';
-  }
-  document.getElementById('gad-error').textContent = '';
+  editingPictureId = null;
+  document.querySelector('.gad-title').textContent     = 'Add Image';
+  document.getElementById('gad-submit').textContent    = 'Add Image';
+  document.getElementById('gad-url').readOnly          = false;
+  document.getElementById('gad-error').textContent     = '';
   document.getElementById('gallery-add-form').reset();
+  _populateCatSelect(null);
   updateSubSuggestions();
+  document.getElementById('gallery-add-modal').classList.add('open');
+}
+
+function openGalleryEdit(id) {
+  const pic = (galleryData.pictures || []).find(p => p.id === id);
+  if (!pic) return;
+  editingPictureId = id;
+  document.querySelector('.gad-title').textContent  = 'Edit Image';
+  document.getElementById('gad-submit').textContent = 'Save Changes';
+  document.getElementById('gad-url').readOnly       = false;
+  document.getElementById('gad-error').textContent  = '';
+  document.getElementById('gad-url').value          = pic.url        || '';
+  document.getElementById('gad-label-input').value  = pic.label      || '';
+  _populateCatSelect(pic.category);
+  updateSubSuggestions();
+  document.getElementById('gad-sub-input').value    = pic.subcategory || '';
   document.getElementById('gallery-add-modal').classList.add('open');
 }
 
@@ -235,7 +273,7 @@ async function submitGalleryAdd(e) {
   const btn = document.getElementById('gad-submit');
   const err = document.getElementById('gad-error');
   btn.disabled = true;
-  btn.textContent = 'Adding…';
+  btn.textContent = editingPictureId ? 'Saving…' : 'Adding…';
   err.textContent = '';
 
   const body = {
@@ -246,20 +284,25 @@ async function submitGalleryAdd(e) {
   };
 
   try {
-    const res = await fetch('/api/gallery', {
-      method: 'POST',
+    const isEdit = editingPictureId !== null;
+    const res = await fetch(isEdit ? `/api/gallery/${editingPictureId}` : '/api/gallery', {
+      method:  isEdit ? 'PUT' : 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body:    JSON.stringify(isEdit ? { label: body.label, category: body.category, subcategory: body.subcategory } : body)
     });
     if (!res.ok) {
       const data = await res.json();
-      err.textContent = data.error || 'Failed to add image.';
+      err.textContent = data.error || 'Failed.';
     } else {
       const pic = await res.json();
-      galleryData.pictures.push(pic);
+      if (isEdit) {
+        galleryData.pictures = galleryData.pictures.map(p => p.id === editingPictureId ? pic : p);
+      } else {
+        galleryData.pictures.push(pic);
+        galActiveCat = pic.category;
+        galActiveSub = 'all';
+      }
       document.getElementById('gallery-add-modal').classList.remove('open');
-      galActiveCat = pic.category;
-      galActiveSub = 'all';
       renderGalFilters();
       renderGalGrid();
     }
@@ -268,7 +311,7 @@ async function submitGalleryAdd(e) {
   }
 
   btn.disabled = false;
-  btn.textContent = 'Add Image';
+  btn.textContent = editingPictureId ? 'Save Changes' : 'Add Image';
 }
 
 /* ── Category Modal ──────────────────────────────────────── */
@@ -293,13 +336,51 @@ function renderCatList() {
   }
   el.innerHTML = cats.map(c => `
     <div class="cat-item">
-      <span class="cat-item-name">${escapeHtml(c.name)}</span>
+      <div class="cat-item-header">
+        <span class="cat-item-name">${escapeHtml(c.name)}</span>
+        <button class="cat-delete-btn" onclick="deleteCategory('${escapeHtml(c.id)}')" title="Delete category">✕</button>
+      </div>
       <div class="cat-item-subs">
         ${c.subcategories.length
           ? c.subcategories.map(s => `<span class="cat-sub-tag">${escapeHtml(s)}</span>`).join('')
           : '<span class="cat-no-subs">no subcategories</span>'}
       </div>
+      <div class="cat-sub-add-row">
+        <input class="gad-input cat-sub-new-input" type="text" id="new-sub-${escapeHtml(c.id)}" placeholder="Add subcategory…" />
+        <button class="gad-btn gad-btn-submit cat-sub-add-btn" onclick="addSubcategory('${escapeHtml(c.id)}')">+</button>
+      </div>
     </div>`).join('');
+}
+
+async function deleteCategory(catId) {
+  if (!confirm('Delete this category? Images in it will keep their category tag.')) return;
+  try {
+    const res = await fetch(`/api/gallery/categories/${catId}`, { method: 'DELETE' });
+    if (res.ok) {
+      galleryData.categories = galleryData.categories.filter(c => c.id !== catId);
+      renderGalFilters();
+      renderCatList();
+    }
+  } catch { /* silent */ }
+}
+
+async function addSubcategory(catId) {
+  const input = document.getElementById(`new-sub-${catId}`);
+  const sub   = input.value.trim();
+  if (!sub) return;
+  try {
+    const res = await fetch(`/api/gallery/categories/${catId}`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ subcategory: sub })
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      galleryData.categories = galleryData.categories.map(c => c.id === catId ? updated : c);
+      renderGalFilters();
+      renderCatList();
+    }
+  } catch { /* silent */ }
 }
 
 async function submitNewCat(e) {
