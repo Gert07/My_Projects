@@ -8,10 +8,10 @@ function applyTheme(theme) {
   const isDark = theme === 'dark' || (theme === 'auto' && prefersDark);
   if (isDark) {
     html.setAttribute('data-theme', 'dark');
-    themeBtn.textContent = '☀️';
+    if (themeBtn) themeBtn.textContent = '☀️';
   } else {
     html.setAttribute('data-theme', 'light');
-    themeBtn.textContent = '🌙';
+    if (themeBtn) themeBtn.textContent = '🌙';
   }
   currentTheme = theme;
   localStorage.setItem('theme', theme);
@@ -62,13 +62,18 @@ function loadContent(page, element) {
   document.getElementById('content-view').classList.add('active');
   document.getElementById('hero-section').style.display = 'none';
 
-  document.getElementById('content-view-title').textContent = element ? element.textContent.trim() : 'Content';
+  const contentTitle = typeof element === 'string'
+    ? element
+    : (element ? element.textContent.trim() : 'Content');
+  document.getElementById('content-view-title').textContent = contentTitle;
 
   const contentEl = document.getElementById('content');
   contentEl.innerHTML = '<div class="content-loading"><div class="spinner"></div> Loading…</div>';
 
   document.querySelectorAll('.menu-link').forEach(b => b.classList.remove('active-page'));
-  if (element) element.classList.add('active-page');
+  if (element && typeof element !== 'string') element.classList.add('active-page');
+  closeAllDropdowns();
+  closeMobileNav();
 
   fetch(page)
     .then(r => {
@@ -91,8 +96,9 @@ function loadContent(page, element) {
 function toggleSidebarMenu(btn) {
   const children = btn.nextElementSibling;
   const isOpen = children.classList.contains('open');
-  document.querySelectorAll('.smenu-children').forEach(c => c.classList.remove('open'));
-  document.querySelectorAll('.smenu-btn').forEach(b => b.classList.remove('open'));
+  const scope = btn.closest('.study-dropdown-menu') || btn.closest('#mobile-nav') || document;
+  scope.querySelectorAll('.smenu-children').forEach(c => c.classList.remove('open'));
+  scope.querySelectorAll('.smenu-btn').forEach(b => b.classList.remove('open'));
   if (!isOpen) {
     children.classList.add('open');
     btn.classList.add('open');
@@ -103,15 +109,6 @@ function toggleSidebarSub(btn) {
   const leaves = btn.nextElementSibling;
   leaves.classList.toggle('open');
   btn.classList.toggle('open');
-}
-
-function openSidebarSection(index) {
-  const btns = document.querySelectorAll('.smenu-btn');
-  if (btns[index]) {
-    toggleSidebarMenu(btns[index]);
-    document.getElementById('sidebar').classList.add('mobile-open');
-  }
-  window.scrollTo(0, 0);
 }
 
 /* ── Mobile Nav ─────────────────────────────────────────── */
@@ -132,21 +129,22 @@ function toggleMobileSection(id) {
   el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
-function toggleSidebarMobile() {
-  document.getElementById('sidebar').classList.toggle('mobile-open');
-}
-
 /* ── Dropdown ───────────────────────────────────────────── */
 function toggleDropdown(id, e) {
   e.stopPropagation();
-  document.getElementById(id).classList.toggle('open');
+  const target = document.getElementById(id);
+  const willOpen = !target.classList.contains('open');
+  closeAllDropdowns();
+  if (willOpen) target.classList.add('open');
 }
 
 function closeAllDropdowns() {
   document.querySelectorAll('.topbar-nav > li').forEach(li => li.classList.remove('open'));
 }
 
-document.addEventListener('click', closeAllDropdowns);
+document.addEventListener('click', e => {
+  if (!e.target.closest('.topbar-nav > li')) closeAllDropdowns();
+});
 
 /* ── Gallery ────────────────────────────────────────────── */
 let galleryData  = { categories: [], pictures: [] };
@@ -387,7 +385,46 @@ const MODULES = [
     desc: 'Software development lifecycle, models, diagrams and CASE tools.',
     topics: ['Agile', 'Waterfall', 'DevOps', 'SDLC', 'Spiral', 'UML', 'ERD', 'Flowchart'],
     count: '17 topics',
-    sidebarIdx: 0
+    studyIdx: 0,
+    sections: [
+      {
+        title: 'Arendusmudelid',
+        items: [
+          { label: 'Agile', page: './content/TarkvaraArendusprotsess/Arendusmudelid/agile.html' },
+          { label: 'Big Bang', page: './content/TarkvaraArendusprotsess/Arendusmudelid/bigbang.html' },
+          { label: 'DevOps', page: './content/TarkvaraArendusprotsess/Arendusmudelid/devops.html' },
+          { label: 'Extreme Programming', page: './content/TarkvaraArendusprotsess/Arendusmudelid/extreme-programming.html' },
+          { label: 'Incremental', page: './content/TarkvaraArendusprotsess/Arendusmudelid/incremental.html' },
+          { label: 'Prototype', page: './content/TarkvaraArendusprotsess/Arendusmudelid/prototype.html' },
+          { label: 'SDLC', page: './content/TarkvaraArendusprotsess/Arendusmudelid/sdlc.html' },
+          { label: 'Spiral', page: './content/TarkvaraArendusprotsess/Arendusmudelid/spiral.html' },
+          { label: 'V-Shape', page: './content/TarkvaraArendusprotsess/Arendusmudelid/v-shape.html' },
+          { label: 'Waterfall', page: './content/TarkvaraArendusprotsess/Arendusmudelid/waterfall.html' }
+        ]
+      },
+      {
+        title: 'Diagrammikeeled',
+        items: [
+          { label: 'Entity Relationship Diagram', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/erd.html' },
+          { label: 'Flowchart', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/flowchart.html' },
+          { label: 'UML', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/uml.html' }
+        ]
+      },
+      {
+        title: 'Project Libre',
+        items: [
+          { label: 'Projekt', page: './content/TarkvaraArendusprotsess/Projekt/Projekt.html' }
+        ]
+      },
+      {
+        title: 'CASE',
+        items: [
+          { label: 'Uldiselt', page: './content/TarkvaraArendusprotsess/CASE/index.html' },
+          { label: 'Lowercase', page: './content/TarkvaraArendusprotsess/CASE/lowercase.html' },
+          { label: 'Uppercase', page: './content/TarkvaraArendusprotsess/CASE/uppercase.html' }
+        ]
+      }
+    ]
   },
   {
     icon: '🎬',
@@ -395,7 +432,18 @@ const MODULES = [
     desc: 'Creative media tools — animation, video editing, illustration and photo editing.',
     topics: ['Animate', 'DaVinci Resolve', 'Illustrator', 'Photoshop'],
     count: '4 topics',
-    sidebarIdx: 1
+    studyIdx: 1,
+    sections: [
+      {
+        title: 'Topics',
+        items: [
+          { label: 'Animate', page: './content/Multimeedia/animate.html' },
+          { label: 'DaVinci Resolve', page: './content/Multimeedia/davinci.html' },
+          { label: 'Illustrator', page: './content/Multimeedia/illustrator.html' },
+          { label: 'Photoshop', page: './content/Multimeedia/photoshop.html' }
+        ]
+      }
+    ]
   },
   {
     icon: '🏢',
@@ -403,7 +451,15 @@ const MODULES = [
     desc: 'IT organization management, infrastructure and organizational structures.',
     topics: ['IT Basics', 'MIS', 'Management Theory', 'Org Structures'],
     count: '1 topic',
-    sidebarIdx: 2
+    studyIdx: 2,
+    sections: [
+      {
+        title: 'Topics',
+        items: [
+          { label: 'Konspekt', page: './content/ITJuhtimine/main.html' }
+        ]
+      }
+    ]
   },
   {
     icon: '💬',
@@ -411,7 +467,15 @@ const MODULES = [
     desc: 'Communication, client interaction and conflict resolution skills.',
     topics: ['Communication', 'Listening Skills', 'Conflict Resolution', 'Assertiveness'],
     count: '1 topic',
-    sidebarIdx: 3
+    studyIdx: 3,
+    sections: [
+      {
+        title: 'Topics',
+        items: [
+          { label: 'Konspekt', page: './content/Klienditeenindus ja suhtlus/osa1.html' }
+        ]
+      }
+    ]
   },
   {
     icon: '🤖',
@@ -419,15 +483,66 @@ const MODULES = [
     desc: 'Arduino robotics — hardware, programming and hands-on experiments.',
     topics: ['Traffic Light', 'Potentiometer', 'Arduino', 'Robotics Essay'],
     count: '3 topics',
-    sidebarIdx: 4
+    studyIdx: 4,
+    sections: [
+      {
+        title: 'Topics',
+        items: [
+          { label: 'Referaat', page: './content/Robootika/referaat.html' },
+          { label: 'Valgusfoor', page: './content/Robootika/valgusfoor.html' },
+          { label: 'Potensiomeeter', page: './content/Robootika/potensiomeeter.html' }
+        ]
+      }
+    ]
   }
 ];
+
+function openStudyModule(index) {
+  const module = MODULES[index];
+  if (!module) return;
+
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('content-view').classList.add('active');
+  document.getElementById('hero-section').style.display = 'none';
+  document.getElementById('content-view-title').textContent = module.name;
+  document.querySelectorAll('.menu-link').forEach(b => b.classList.remove('active-page'));
+  closeAllDropdowns();
+  closeMobileNav();
+
+  const contentEl = document.getElementById('content');
+  contentEl.innerHTML = `
+    <div class="study-topic-menu">
+      <div class="study-topic-intro">
+        <div class="study-topic-icon">${module.icon}</div>
+        <div>
+          <h2>${escapeHtml(module.name)}</h2>
+          <p>${escapeHtml(module.desc)}</p>
+        </div>
+      </div>
+      ${module.sections.map(section => `
+        <section class="study-topic-section">
+          <div class="study-topic-section-title">${escapeHtml(section.title)}</div>
+          <div class="study-topic-grid">
+            ${section.items.map(item => `
+              <button class="study-topic-card" onclick="loadContent('${item.page}', '${escapeHtml(item.label)}')">
+                <span class="study-topic-card-title">${escapeHtml(item.label)}</span>
+                <span class="study-topic-card-arrow">→</span>
+              </button>
+            `).join('')}
+          </div>
+        </section>
+      `).join('')}
+    </div>
+  `;
+
+  window.scrollTo(0, 0);
+}
 
 function renderModuleList() {
   const el = document.getElementById('module-list');
   if (!el) return;
   el.innerHTML = MODULES.map(m => `
-    <div class="mod-card" onclick="openSidebarSection(${m.sidebarIdx})">
+    <div class="mod-card" onclick="openStudyModule(${m.studyIdx})">
       <div class="mod-icon">${m.icon}</div>
       <div class="mod-body">
         <div class="mod-name">${escapeHtml(m.name)}</div>
@@ -674,7 +789,7 @@ function setupAmbientCanvas() {
 
   function drawSpark(spark) {
     context.beginPath();
-    context.fillStyle = `rgba(255, 255, 255, ${spark.alpha})`;
+    context.fillStyle = `rgba(255, 255, 255, ${Math.min(spark.alpha * 1.25, 0.95)})`;
     context.arc(spark.x, spark.y, spark.radius, 0, Math.PI * 2);
     context.fill();
 

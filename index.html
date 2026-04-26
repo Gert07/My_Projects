@@ -35,6 +35,18 @@
             <li><a href="#" onclick="showView('python-view', null); closeAllDropdowns(); return false;">Python Projects</a></li>
           </ul>
         </li>
+        <li class="dropdown" id="nav-study-dd">
+          <button class="nav-btn" onclick="toggleDropdown('nav-study-dd', event)">
+            Study Modules <span class="caret">▾</span>
+          </button>
+          <ul class="nav-dropdown-menu study-dropdown-menu">
+            <li><button class="menu-link study-module-launch" onclick="openStudyModule(0)">Tarkvara Arendusprotsess</button></li>
+            <li><button class="menu-link study-module-launch" onclick="openStudyModule(1)">Multimeedia</button></li>
+            <li><button class="menu-link study-module-launch" onclick="openStudyModule(2)">IT Juhtimine</button></li>
+            <li><button class="menu-link study-module-launch" onclick="openStudyModule(3)">Klienditeenindus</button></li>
+            <li><button class="menu-link study-module-launch" onclick="openStudyModule(4)">Robootika</button></li>
+          </ul>
+        </li>
         <li>
           <button class="nav-btn" onclick="showView('gallery-view', this)">
             <svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
@@ -50,7 +62,6 @@
       </ul>
     </nav>
     <div class="topbar-right">
-      <button class="theme-toggle" id="theme-btn" title="Toggle dark/light mode" onclick="toggleTheme()">🌙</button>
       <button class="todo-toggle-btn" id="todo-toggle-btn" title="To-Do List" onclick="toggleTodoPanel()">
         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v2H2zm0 4h12v2H2zm0 4h8v2H2z"/></svg>
         <span class="todo-badge" id="todo-badge"></span>
@@ -69,9 +80,16 @@
       <a href="#" onclick="showView('js-view',null); closeMobileNav(); return false;">JavaScript Projects</a>
       <a href="#" onclick="showView('python-view',null); closeMobileNav(); return false;">Python Projects</a>
     </div>
+    <button onclick="toggleMobileSection('msec-study')">📚 Study Modules ▾</button>
+    <div id="msec-study" class="mobile-submenu" style="display:none">
+      <a href="#" onclick="openStudyModule(0); return false;">Tarkvara Arendusprotsess</a>
+      <a href="#" onclick="openStudyModule(1); return false;">Multimeedia</a>
+      <a href="#" onclick="openStudyModule(2); return false;">IT Juhtimine</a>
+      <a href="#" onclick="openStudyModule(3); return false;">Klienditeenindus</a>
+      <a href="#" onclick="openStudyModule(4); return false;">Robootika</a>
+    </div>
     <a href="#" onclick="showView('gallery-view',null); closeMobileNav(); return false;">🖼️ Gallery</a>
     <a href="#" onclick="showView('contacts-view',null); closeMobileNav(); return false;">👤 Contacts</a>
-    <a href="#" onclick="toggleSidebarMobile(); closeMobileNav(); return false;">📚 Study Menu</a>
   </nav>
 </header>
 
@@ -98,124 +116,6 @@
 
 <!-- ═══════════════════════ APP ═══════════════════════ -->
 <div id="app">
-
-  <!-- SIDEBAR -->
-  <aside id="sidebar">
-    <div class="sidebar-section-title">Study Modules</div>
-    <ul class="sidebar-menu">
-
-      <!-- Tarkvara Arendusprotsess -->
-      <li>
-        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
-          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v12H2z" fill="none" stroke="currentColor" stroke-width="1.5" rx="2"/><path d="M5 8h6M5 5h6M5 11h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Tarkvara Arendusprotsess
-          <span class="smenu-caret">›</span>
-        </button>
-        <ul class="smenu-children">
-          <li>
-            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
-              Arendusmudelid <span class="smenu-caret">›</span>
-            </button>
-            <ul class="smenu-leaves">
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/agile.html', this)">Agile</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/bigbang.html', this)">Big Bang</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/devops.html', this)">DevOps</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/extreme-programming.html', this)">Extreme Programming</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/incremental.html', this)">Incremental</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/prototype.html', this)">Prototype</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/sdlc.html', this)">SDLC</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/spiral.html', this)">Spiral</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/v-shape.html', this)">V-Shape</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Arendusmudelid/waterfall.html', this)">Waterfall</button></li>
-            </ul>
-          </li>
-          <li>
-            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
-              Diagrammikeeled <span class="smenu-caret">›</span>
-            </button>
-            <ul class="smenu-leaves">
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Diagrammikeeled/erd.html', this)">Entity Relationship Diagram</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Diagrammikeeled/flowchart.html', this)">Flowchart</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Diagrammikeeled/uml.html', this)">UML</button></li>
-            </ul>
-          </li>
-          <li>
-            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
-              Project Libre <span class="smenu-caret">›</span>
-            </button>
-            <ul class="smenu-leaves">
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/Projekt/Projekt.html', this)">Projekt</button></li>
-            </ul>
-          </li>
-          <li>
-            <button class="smenu-sub-btn" onclick="toggleSidebarSub(this)">
-              CASE <span class="smenu-caret">›</span>
-            </button>
-            <ul class="smenu-leaves">
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/CASE/index.html', this)">Üldiselt</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/CASE/lowercase.html', this)">Lowercase</button></li>
-              <li><button class="menu-link" onclick="loadContent('./content/TarkvaraArendusprotsess/CASE/uppercase.html', this)">Uppercase</button></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-
-      <!-- Multimeedia -->
-      <li>
-        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
-          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="3" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><polygon points="6,6 11,8 6,10" fill="currentColor"/></svg>
-          Multimeedia
-          <span class="smenu-caret">›</span>
-        </button>
-        <ul class="smenu-children">
-          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/animate.html', this)">Animate</button></li>
-          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/davinci.html', this)">DaVinci Resolve</button></li>
-          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/illustrator.html', this)">Illustrator</button></li>
-          <li><button class="menu-link" onclick="loadContent('./content/Multimeedia/photoshop.html', this)">Photoshop</button></li>
-        </ul>
-      </li>
-
-      <!-- IT Juhtimine -->
-      <li>
-        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
-          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1L1 5v6l7 4 7-4V5z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-          IT Juhtimine
-          <span class="smenu-caret">›</span>
-        </button>
-        <ul class="smenu-children">
-          <li><button class="menu-link" onclick="loadContent('./content/ITJuhtimine/main.html', this)">Konspekt</button></li>
-        </ul>
-      </li>
-
-      <!-- Klienditeenindus -->
-      <li>
-        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
-          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-          Klienditeenindus
-          <span class="smenu-caret">›</span>
-        </button>
-        <ul class="smenu-children">
-          <li><button class="menu-link" onclick="loadContent('./content/Klienditeenindus ja suhtlus/osa1.html', this)">Konspekt</button></li>
-        </ul>
-      </li>
-
-      <!-- Robootika -->
-      <li>
-        <button class="smenu-btn" onclick="toggleSidebarMenu(this)">
-          <svg class="smenu-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="6" width="10" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="3" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v1" stroke="currentColor" stroke-width="1.5"/><circle cx="5.5" cy="9.5" r="1" fill="currentColor"/><circle cx="10.5" cy="9.5" r="1" fill="currentColor"/></svg>
-          Robootika
-          <span class="smenu-caret">›</span>
-        </button>
-        <ul class="smenu-children">
-          <li><button class="menu-link" onclick="loadContent('./content/Robootika/referaat.html', this)">Referaat</button></li>
-          <li><button class="menu-link" onclick="loadContent('./content/Robootika/valgusfoor.html', this)">Valgusfoor</button></li>
-          <li><button class="menu-link" onclick="loadContent('./content/Robootika/potensiomeeter.html', this)">Potensiomeeter</button></li>
-        </ul>
-      </li>
-
-    </ul>
-  </aside>
-
   <!-- MAIN CONTENT -->
   <main id="main-content-area">
 
