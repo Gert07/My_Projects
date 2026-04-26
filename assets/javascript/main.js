@@ -3,29 +3,6 @@ const html = document.documentElement;
 const themeBtn = document.getElementById('theme-btn');
 let currentTheme = localStorage.getItem('theme') || 'auto';
 
-function applyTheme(theme) {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const isDark = theme === 'dark' || (theme === 'auto' && prefersDark);
-  if (isDark) {
-    html.setAttribute('data-theme', 'dark');
-    if (themeBtn) themeBtn.textContent = '☀️';
-  } else {
-    html.setAttribute('data-theme', 'light');
-    if (themeBtn) themeBtn.textContent = '🌙';
-  }
-  currentTheme = theme;
-  localStorage.setItem('theme', theme);
-}
-
-function toggleTheme() {
-  const isDarkNow = html.getAttribute('data-theme') === 'dark';
-  applyTheme(isDarkNow ? 'light' : 'dark');
-}
-
-applyTheme(currentTheme);
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-  if (currentTheme === 'auto') applyTheme('auto');
-});
 
 /* ── View Routing ───────────────────────────────────────── */
 let prevView = null;

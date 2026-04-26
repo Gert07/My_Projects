@@ -1,26 +1,3 @@
 {
-  "categories": [
-    { "id": "bikes", "name": "Bikes", "subcategories": ["Side", "Close-up", "Front"] },
-    { "id": "nature", "name": "Nature", "subcategories": ["Mountains", "Forests", "Ocean", "Winter", "Sunsets"] },
-    { "id": "people", "name": "People", "subcategories": ["Workout", "Outdoor"] },
-    { "id": "urban", "name": "Urban", "subcategories": ["City", "Architecture"] },
-    { "id": "food", "name": "Food", "subcategories": ["Sweets"] },
-    { "id": "travel", "name": "Travel", "subcategories": ["Road Trips"] }
-  ],
-  "pictures": [
-    { "id": 1001, "url": "https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060833/1755528668831_vqizwf.jpg", "label": "Bike Side", "alt": "Bike Side", "category": "bikes", "subcategory": "Side" },
-    { "id": 1002, "url": "https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060305/1755528668806_zonyzu.jpg", "label": "Bike Handlebars", "alt": "Bike Close-up Handlebars", "category": "bikes", "subcategory": "Close-up" },
-    { "id": 1003, "url": "https://res.cloudinary.com/da7mxiwyd/image/upload/v1775061980/1755528668855_hgvbbf.jpg", "label": "Bike Front", "alt": "Bike Front", "category": "bikes", "subcategory": "Front" },
-    { "id": 1004, "url": "https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060267/cld-sample-4.jpg", "label": "Food Sweets", "alt": "Food Sweets", "category": "food", "subcategory": "Sweets" },
-    { "id": 1005, "url": "https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060263/samples/woman-on-a-football-field.jpg", "label": "Woman Workout", "alt": "Woman Workout Posing", "category": "people", "subcategory": "Workout" },
-    { "id": 1006, "url": "https://res.cloudinary.com/da7mxiwyd/image/upload/v1775060261/samples/outdoor-woman.jpg", "label": "Outdoor Woman", "alt": "Woman Posing", "category": "people", "subcategory": "Outdoor" },
-    { "id": 1007, "url": "https://picsum.photos/seed/mountain/800/600", "label": "Mountain Landscape", "alt": "Mountain Landscape", "category": "nature", "subcategory": "Mountains" },
-    { "id": 1008, "url": "https://picsum.photos/seed/forest/800/600", "label": "Forest Path", "alt": "Forest Path", "category": "nature", "subcategory": "Forests" },
-    { "id": 1009, "url": "https://picsum.photos/seed/citynight/800/600", "label": "City Skyline", "alt": "City Skyline", "category": "urban", "subcategory": "City" },
-    { "id": 1010, "url": "https://picsum.photos/seed/ocean/800/600", "label": "Ocean Waves", "alt": "Ocean Waves", "category": "nature", "subcategory": "Ocean" },
-    { "id": 1011, "url": "https://picsum.photos/seed/architecture/800/600", "label": "Architecture", "alt": "Architecture Building", "category": "urban", "subcategory": "Architecture" },
-    { "id": 1012, "url": "https://picsum.photos/seed/wintersnow/800/600", "label": "Winter Snow", "alt": "Winter Snow", "category": "nature", "subcategory": "Winter" },
-    { "id": 1013, "url": "https://picsum.photos/seed/sunset/800/600", "label": "Sunset Sky", "alt": "Sunset Sky", "category": "nature", "subcategory": "Sunsets" },
-    { "id": 1014, "url": "https://picsum.photos/seed/roadtrip/800/600", "label": "Road Trip", "alt": "Road Travel Highway", "category": "travel", "subcategory": "Road Trips" }
-  ]
+  
 }
