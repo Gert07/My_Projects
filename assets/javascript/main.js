@@ -23,7 +23,6 @@ function showView(id, btn) {
   }
 
   if (id === 'gallery-view') loadGallery();
-  if (id === 'home-view')   loadWeather();
 
   window.scrollTo(0, 0);
 }
@@ -613,81 +612,6 @@ function renderModuleList() {
     </div>`).join('');
 }
 
-/* ── Home: Weather ──────────────────────────────────────── */
-const WMO = {
-  0:  { desc: 'Clear sky',            icon: '☀️'  },
-  1:  { desc: 'Mainly clear',         icon: '🌤️' },
-  2:  { desc: 'Partly cloudy',        icon: '⛅'  },
-  3:  { desc: 'Overcast',             icon: '☁️'  },
-  45: { desc: 'Foggy',                icon: '🌫️' },
-  48: { desc: 'Icy fog',              icon: '🌫️' },
-  51: { desc: 'Light drizzle',        icon: '🌦️' },
-  53: { desc: 'Drizzle',              icon: '🌦️' },
-  55: { desc: 'Heavy drizzle',        icon: '🌧️' },
-  61: { desc: 'Light rain',           icon: '🌧️' },
-  63: { desc: 'Rain',                 icon: '🌧️' },
-  65: { desc: 'Heavy rain',           icon: '🌧️' },
-  71: { desc: 'Light snow',           icon: '🌨️' },
-  73: { desc: 'Snow',                 icon: '❄️'  },
-  75: { desc: 'Heavy snow',           icon: '❄️'  },
-  77: { desc: 'Snow grains',          icon: '🌨️' },
-  80: { desc: 'Light showers',        icon: '🌦️' },
-  81: { desc: 'Showers',              icon: '🌧️' },
-  82: { desc: 'Heavy showers',        icon: '⛈️'  },
-  85: { desc: 'Snow showers',         icon: '🌨️' },
-  86: { desc: 'Heavy snow showers',   icon: '🌨️' },
-  95: { desc: 'Thunderstorm',         icon: '⛈️'  },
-  96: { desc: 'Thunderstorm + hail',  icon: '⛈️'  },
-  99: { desc: 'Severe thunderstorm',  icon: '⛈️'  }
-};
-
-let wxLoaded = false;
-
-async function loadWeather() {
-  if (wxLoaded) return;
-  try {
-    let lat = 59.3569, lon = 24.9370, city = 'Kiili, Estonia';
-
-    const pos = await new Promise((ok, fail) => {
-      if (!navigator.geolocation) { fail(); return; }
-      navigator.geolocation.getCurrentPosition(ok, fail, { timeout: 5000 });
-    }).catch(() => null);
-
-    if (pos) {
-      lat  = pos.coords.latitude;
-      lon  = pos.coords.longitude;
-      try {
-        const geo = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
-          { headers: { 'Accept-Language': 'en' } }
-        ).then(r => r.json());
-        city = geo.address.city || geo.address.town || geo.address.village
-             || geo.address.county || 'Your location';
-      } catch { city = 'Your location'; }
-    }
-
-    document.getElementById('wx-city').textContent = city;
-
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
-      + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m`
-      + `&wind_speed_unit=kmh&timezone=auto`;
-
-    const data = await fetch(url).then(r => r.json());
-    const cur  = data.current;
-    const wmo  = WMO[cur.weather_code] || { desc: 'Unknown', icon: '❓' };
-
-    document.getElementById('wx-icon').textContent     = wmo.icon;
-    document.getElementById('wx-temp').textContent     = Math.round(cur.temperature_2m) + '°C';
-    document.getElementById('wx-desc').textContent     = wmo.desc;
-    document.getElementById('wx-feels').textContent    = Math.round(cur.apparent_temperature) + '°C';
-    document.getElementById('wx-wind').textContent     = Math.round(cur.wind_speed_10m) + ' km/h';
-    document.getElementById('wx-humidity').textContent = cur.relative_humidity_2m + '%';
-
-    wxLoaded = true;
-  } catch {
-    document.getElementById('wx-desc').textContent = 'Could not load weather.';
-  }
-}
 
 /* ── Todo Panel ─────────────────────────────────────────── */
 let todoFilter = 'all';

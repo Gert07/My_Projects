@@ -1,0 +1,69 @@
+// --- Input Pins ---
+const int potPin = A0;  // Potentiometer controls the Color
+const int ldrPin = A1;  // Photoresistor controls the Brightness
+
+// --- Output Pins (RGB LED) ---
+const int redPin = 10;   
+const int bluePin = 11;  
+const int greenPin = 12; // (Snaps ON/OFF because no PWM)
+
+// --- Settings ---
+// Set this between 0 and 100. Lowering this saves power and mA!
+const int maxBrightnessLimit = 30; 
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(redPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+}
+
+void loop() {
+  int potValue = analogRead(potPin); 
+  int ldrValue = analogRead(ldrPin); 
+
+  // 1. Map and CONSTRAIN the brightness using our new limit
+  // Darkest room (900) = 0%, Brightest room (100) = maxBrightnessLimit
+  int mappedBrightness = map(ldrValue, 100, 900, maxBrightnessLimit, 10);
+  
+  // Ensure it never goes below 0 or above our hard limit
+  mappedBrightness = constrain(mappedBrightness, 0, maxBrightnessLimit); 
+  
+  // Convert to a decimal for our math (e.g., 50 becomes 0.5)
+  float brightness = mappedBrightness / 100.0; 
+
+  // 2. Map the Potentiometer to a Color Wheel position (0 to 255)
+  int wheelPos = map(potValue, 0, 1023, 0, 255);
+  
+  // Variables to hold the raw color calculations
+  int r = 0, g = 0, b = 0;
+
+  // 3. Calculate RGB values
+  if (wheelPos < 85) {
+    r = 255 - wheelPos * 3;
+    g = 0;
+    b = wheelPos * 3;
+  } else if (wheelPos < 170) {
+    wheelPos -= 85;
+    r = 0;
+    g = wheelPos * 3;
+    b = 255 - wheelPos * 3;
+  } else {
+    wheelPos -= 170;
+    r = wheelPos * 3;
+    g = 255 - wheelPos * 3;
+    b = 0;
+  }
+
+  // 4. Apply the limited overall brightness
+  r = r * brightness;
+  g = g * brightness;
+  b = b * brightness;
+
+  // 5. Output to the LEDs
+  analogWrite(redPin, r);
+  analogWrite(bluePin, b);
+  analogWrite(greenPin, g); 
+
+}
