@@ -1,0 +1,27 @@
+<h1>Temperatuuritundlik servolülitus</h1>
+<h2>Kasutatud komponendid: </h2>
+    <ul>
+        <li>Arduino UNO plaat (1tk)</li>
+        <li>Arendusplaat (1tk)</li>
+        <li>Juhtmed (10tk)</li>
+        <li>Takisti (1tk, 220Ω; 1tk, 1kΩ)</li>
+        <li>LED punane (1tk)</li>
+        <li>Fototakisti (1tk)</li>
+        <li>Temperatuuri andur (1tk)</li>
+        <li>Servo lüliti (1tk)</li>
+    </ul>
+<h2>Töö protsessid: </h2>
+    <ul>
+        <li>Ühendasin Servo Arduino plaadiga, toide läks pluss (5v) ja maandus läks miinusesse ja signaal läks -9 pessa plaadil. Temperatuuri anduri signaal läks A0 pessa, muidu sama. Fototakisti ühendasin samuti +5v alla aga läbi 1kΩ takisti ja signaal läks A1 pessa. Ühendasin punase Ledi 13 pessa.</li><br>
+        <li>Servo lülitit reguleerib temperatuuri andur vastavalt sellele kui mitu kraadi on ja servo on kas "avatud" või "suletud" asendis. Fototakisti mõõdab valgusetugevust ja vastavalt sellele läheb Led põlema.</li>
+    </ul>
+<h2>Skeem: </h2>
+    <img src="./content/Robootika/Servo/Skeem.png" alt="Skeem">
+<h2>Programm: </h2>
+    <iframe src="./content/Robootika/Servo/kood.txt" frameborder="0" width="640" height="480" style="filter: invert(1);"></iframe>
+<h2>Video: </h2>
+    <iframe src="https://drive.google.com/file/d/1SeHGt5RxtYWyJnMBHKwbn0NmSnA4iXZu/preview" width="640" height="480"></iframe>
+<h2>Uued funktsioonid: </h2>
+    <ul>
+        <li><b>IF</b> - Kasutasin IF funktsiooni, kas temperatuur on vastava kraadi saavutanud või mitte ja vastavalt sellele on kas servo 1 või 0 asendis. </li>
+    </ul>

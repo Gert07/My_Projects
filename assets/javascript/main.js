@@ -6,14 +6,68 @@ let currentTheme = localStorage.getItem('theme') || 'auto';
 
 /* ── View Routing ───────────────────────────────────────── */
 let prevView = null;
+let isApplyingRoute = false;
 
-function showView(id, btn) {
+const VIEW_ROUTE_MAP = {
+  'home-view': 'home',
+  'gallery-view': 'gallery',
+  'contacts-view': 'contacts',
+  'csharp-view': 'projects/csharp',
+  'js-view': 'projects/javascript',
+  'python-view': 'projects/python'
+};
+
+const VIEW_ROUTE_LOOKUP = Object.fromEntries(
+  Object.entries(VIEW_ROUTE_MAP).map(([viewId, route]) => [route, viewId])
+);
+
+function normalizeRoute(route) {
+  return String(route || '')
+    .replace(/^#/, '')
+    .replace(/^\/+|\/+$/g, '')
+    .toLowerCase();
+}
+
+function updateRoute(route, { replace = false } = {}) {
+  if (isApplyingRoute) return;
+  const normalizedRoute = normalizeRoute(route);
+  const targetHash = normalizedRoute ? `#${normalizedRoute}` : '';
+  if (window.location.hash === targetHash) return;
+
+  if (replace) {
+    history.replaceState(null, '', targetHash || window.location.pathname + window.location.search);
+  } else {
+    window.location.hash = normalizedRoute;
+  }
+}
+
+function setActiveNavByView(id, btn) {
+  document.querySelectorAll('.topbar-nav .nav-btn, .topbar-nav .nav-link').forEach(b => b.classList.remove('active'));
+  if (btn) {
+    btn.classList.add('active');
+    return;
+  }
+
+  const navButtonByView = {
+    'home-view': document.querySelector(".topbar-nav .nav-btn[onclick*=\"showView('home-view'\"]"),
+    'gallery-view': document.querySelector(".topbar-nav .nav-btn[onclick*=\"showView('gallery-view'\"]"),
+    'contacts-view': document.querySelector(".topbar-nav .nav-btn[onclick*=\"showView('contacts-view'\"]"),
+    'csharp-view': document.querySelector('#nav-projects-dd > .nav-btn'),
+    'js-view': document.querySelector('#nav-projects-dd > .nav-btn'),
+    'python-view': document.querySelector('#nav-projects-dd > .nav-btn'),
+    'content-view': document.querySelector('#nav-study-dd > .nav-btn')
+  };
+
+  navButtonByView[id]?.classList.add('active');
+}
+
+function showView(id, btn, options = {}) {
+  const { updateHash = true, replaceHistory = false } = options;
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   prevView = null;
 
-  document.querySelectorAll('.topbar-nav .nav-btn, .topbar-nav .nav-link').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+  setActiveNavByView(id, btn);
 
   document.getElementById('hero-section').style.display = (id === 'home-view') ? '' : 'none';
 
@@ -23,17 +77,38 @@ function showView(id, btn) {
   }
 
   if (id === 'gallery-view') loadGallery();
+  if (updateHash && VIEW_ROUTE_MAP[id]) updateRoute(VIEW_ROUTE_MAP[id], { replace: replaceHistory });
 
   window.scrollTo(0, 0);
 }
 
 function goBack() {
+  const route = normalizeRoute(window.location.hash);
+  if (!route || route === 'home') {
+    showView('home-view', null, { updateHash: false });
+    document.getElementById('hero-section').style.display = '';
+    return;
+  }
+
+  const parts = route.split('/');
+  if (parts[0] === 'study') {
+    if (parts.length >= 3) {
+      updateRoute(`study/${parts[1]}`);
+      return;
+    }
+
+    showView('home-view', null);
+    document.getElementById('hero-section').style.display = '';
+    return;
+  }
+
   showView('home-view', null);
   document.getElementById('hero-section').style.display = '';
 }
 
 /* ── Content Loader ─────────────────────────────────────── */
-function loadContent(page, element) {
+function loadContent(page, element, options = {}) {
+  const { updateHash = true, replaceHistory = false, route = null } = options;
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('content-view').classList.add('active');
   document.getElementById('hero-section').style.display = 'none';
@@ -48,6 +123,7 @@ function loadContent(page, element) {
 
   document.querySelectorAll('.menu-link').forEach(b => b.classList.remove('active-page'));
   if (element && typeof element !== 'string') element.classList.add('active-page');
+  setActiveNavByView('content-view');
   closeAllDropdowns();
   closeMobileNav();
 
@@ -65,6 +141,7 @@ function loadContent(page, element) {
         </p>`;
     });
 
+  if (updateHash && route) updateRoute(route, { replace: replaceHistory });
   window.scrollTo(0, 0);
 }
 
@@ -438,6 +515,7 @@ document.addEventListener('keydown', e => {
 const MODULES = [
   {
     icon: '📋',
+    slug: 'tarkvara-arendusprotsess',
     name: 'Tarkvara Arendusprotsess',
     desc: 'Software development lifecycle, models, diagrams and CASE tools.',
     topics: ['Agile', 'Waterfall', 'DevOps', 'SDLC', 'Spiral', 'UML', 'ERD', 'Flowchart'],
@@ -447,44 +525,45 @@ const MODULES = [
       {
         title: 'Arendusmudelid',
         items: [
-          { label: 'Agile', page: './content/TarkvaraArendusprotsess/Arendusmudelid/agile.html' },
-          { label: 'Big Bang', page: './content/TarkvaraArendusprotsess/Arendusmudelid/bigbang.html' },
-          { label: 'DevOps', page: './content/TarkvaraArendusprotsess/Arendusmudelid/devops.html' },
-          { label: 'Extreme Programming', page: './content/TarkvaraArendusprotsess/Arendusmudelid/extreme-programming.html' },
-          { label: 'Incremental', page: './content/TarkvaraArendusprotsess/Arendusmudelid/incremental.html' },
-          { label: 'Prototype', page: './content/TarkvaraArendusprotsess/Arendusmudelid/prototype.html' },
-          { label: 'SDLC', page: './content/TarkvaraArendusprotsess/Arendusmudelid/sdlc.html' },
-          { label: 'Spiral', page: './content/TarkvaraArendusprotsess/Arendusmudelid/spiral.html' },
-          { label: 'V-Shape', page: './content/TarkvaraArendusprotsess/Arendusmudelid/v-shape.html' },
-          { label: 'Waterfall', page: './content/TarkvaraArendusprotsess/Arendusmudelid/waterfall.html' }
+          { slug: 'agile', label: 'Agile', page: './content/TarkvaraArendusprotsess/Arendusmudelid/agile.html' },
+          { slug: 'bigbang', label: 'Big Bang', page: './content/TarkvaraArendusprotsess/Arendusmudelid/bigbang.html' },
+          { slug: 'devops', label: 'DevOps', page: './content/TarkvaraArendusprotsess/Arendusmudelid/devops.html' },
+          { slug: 'extreme-programming', label: 'Extreme Programming', page: './content/TarkvaraArendusprotsess/Arendusmudelid/extreme-programming.html' },
+          { slug: 'incremental', label: 'Incremental', page: './content/TarkvaraArendusprotsess/Arendusmudelid/incremental.html' },
+          { slug: 'prototype', label: 'Prototype', page: './content/TarkvaraArendusprotsess/Arendusmudelid/prototype.html' },
+          { slug: 'sdlc', label: 'SDLC', page: './content/TarkvaraArendusprotsess/Arendusmudelid/sdlc.html' },
+          { slug: 'spiral', label: 'Spiral', page: './content/TarkvaraArendusprotsess/Arendusmudelid/spiral.html' },
+          { slug: 'v-shape', label: 'V-Shape', page: './content/TarkvaraArendusprotsess/Arendusmudelid/v-shape.html' },
+          { slug: 'waterfall', label: 'Waterfall', page: './content/TarkvaraArendusprotsess/Arendusmudelid/waterfall.html' }
         ]
       },
       {
         title: 'Diagrammikeeled',
         items: [
-          { label: 'Entity Relationship Diagram', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/erd.html' },
-          { label: 'Flowchart', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/flowchart.html' },
-          { label: 'UML', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/uml.html' }
+          { slug: 'erd', label: 'Entity Relationship Diagram', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/erd.html' },
+          { slug: 'flowchart', label: 'Flowchart', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/flowchart.html' },
+          { slug: 'uml', label: 'UML', page: './content/TarkvaraArendusprotsess/Diagrammikeeled/uml.html' }
         ]
       },
       {
         title: 'Project Libre',
         items: [
-          { label: 'Projekt', page: './content/TarkvaraArendusprotsess/Projekt/Projekt.html' }
+          { slug: 'projekt', label: 'Projekt', page: './content/TarkvaraArendusprotsess/Projekt/Projekt.html' }
         ]
       },
       {
         title: 'CASE',
         items: [
-          { label: 'Uldiselt', page: './content/TarkvaraArendusprotsess/CASE/index.html' },
-          { label: 'Lowercase', page: './content/TarkvaraArendusprotsess/CASE/lowercase.html' },
-          { label: 'Uppercase', page: './content/TarkvaraArendusprotsess/CASE/uppercase.html' }
+          { slug: 'case-index', label: 'Uldiselt', page: './content/TarkvaraArendusprotsess/CASE/index.html' },
+          { slug: 'lowercase', label: 'Lowercase', page: './content/TarkvaraArendusprotsess/CASE/lowercase.html' },
+          { slug: 'uppercase', label: 'Uppercase', page: './content/TarkvaraArendusprotsess/CASE/uppercase.html' }
         ]
       }
     ]
   },
   {
     icon: '🎬',
+    slug: 'multimeedia',
     name: 'Multimeedia',
     desc: 'Creative media tools — animation, video editing, illustration and photo editing.',
     topics: ['Animate', 'DaVinci Resolve', 'Illustrator', 'Photoshop'],
@@ -494,16 +573,17 @@ const MODULES = [
       {
         title: 'Topics',
         items: [
-          { label: 'Animate', page: './content/Multimeedia/animate.html' },
-          { label: 'DaVinci Resolve', page: './content/Multimeedia/davinci.html' },
-          { label: 'Illustrator', page: './content/Multimeedia/illustrator.html' },
-          { label: 'Photoshop', page: './content/Multimeedia/photoshop.html' }
+          { slug: 'animate', label: 'Animate', page: './content/Multimeedia/animate.html' },
+          { slug: 'davinci', label: 'DaVinci Resolve', page: './content/Multimeedia/davinci.html' },
+          { slug: 'illustrator', label: 'Illustrator', page: './content/Multimeedia/illustrator.html' },
+          { slug: 'photoshop', label: 'Photoshop', page: './content/Multimeedia/photoshop.html' }
         ]
       }
     ]
   },
   {
     icon: '🏢',
+    slug: 'it-juhtimine',
     name: 'IT Juhtimine',
     desc: 'IT organization management, infrastructure and organizational structures.',
     topics: ['IT Basics', 'MIS', 'Management Theory', 'Org Structures'],
@@ -513,13 +593,14 @@ const MODULES = [
       {
         title: 'Topics',
         items: [
-          { label: 'Konspekt', page: './content/ITJuhtimine/main.html' }
+          { slug: 'konspekt', label: 'Konspekt', page: './content/ITJuhtimine/main.html' }
         ]
       }
     ]
   },
   {
     icon: '💬',
+    slug: 'klienditeenindus',
     name: 'Klienditeenindus',
     desc: 'Communication, client interaction and conflict resolution skills.',
     topics: ['Communication', 'Listening Skills', 'Conflict Resolution', 'Assertiveness'],
@@ -529,13 +610,14 @@ const MODULES = [
       {
         title: 'Topics',
         items: [
-          { label: 'Konspekt', page: './content/Klienditeenindus ja suhtlus/osa1.html' }
+          { slug: 'konspekt', label: 'Konspekt', page: './content/Klienditeenindus ja suhtlus/osa1.html' }
         ]
       }
     ]
   },
   {
     icon: '🤖',
+    slug: 'robootika',
     name: 'Robootika',
     desc: 'Arduino robotics — hardware, programming and hands-on experiments.',
     topics: ['Traffic Light', 'Potentiometer', 'Arduino', 'Robotics Essay'],
@@ -545,16 +627,32 @@ const MODULES = [
       {
         title: 'Topics',
         items: [
-          { label: 'Referaat', page: './content/Robootika/referaat.html' },
-          { label: 'Valgusfoor', page: './content/Robootika/valgusfoor.html' },
-          { label: 'Potensiomeeter', page: './content/Robootika/potensiomeeter.html' }
+          { slug: 'referaat', label: 'Referaat', page: './content/Robootika/referaat.html' },
+          { slug: 'valgusfoor', label: 'Valgusfoor', page: './content/Robootika/valgusfoor.html' },
+          { slug: 'potensiomeeter', label: 'Potensiomeeter', page: './content/Robootika/potensiomeeter.html' },
+          { slug: 'oolamp', label: 'Öölamp', page: './content/Robootika/oolamp.html'},
+          { slug: 'servo', label: 'Servo ja Temp andur', page: './content/Robootika/servo.html'}
         ]
       }
     ]
   }
 ];
 
-function openStudyModule(index) {
+function findModuleBySlug(slug) {
+  return MODULES.find(module => module.slug === slug);
+}
+
+function findModuleTopic(module, topicSlug) {
+  if (!module) return null;
+  for (const section of module.sections) {
+    const item = section.items.find(entry => entry.slug === topicSlug);
+    if (item) return item;
+  }
+  return null;
+}
+
+function openStudyModule(index, options = {}) {
+  const { updateHash = true, replaceHistory = false } = options;
   const module = MODULES[index];
   if (!module) return;
 
@@ -563,6 +661,7 @@ function openStudyModule(index) {
   document.getElementById('hero-section').style.display = 'none';
   document.getElementById('content-view-title').textContent = module.name;
   document.querySelectorAll('.menu-link').forEach(b => b.classList.remove('active-page'));
+  setActiveNavByView('content-view');
   closeAllDropdowns();
   closeMobileNav();
 
@@ -581,7 +680,7 @@ function openStudyModule(index) {
           <div class="study-topic-section-title">${escapeHtml(section.title)}</div>
           <div class="study-topic-grid">
             ${section.items.map(item => `
-              <button class="study-topic-card" onclick="loadContent('${item.page}', '${escapeHtml(item.label)}')">
+              <button class="study-topic-card" onclick="loadContent('${item.page}', '${escapeHtml(item.label)}', { route: 'study/${module.slug}/${item.slug}' })">
                 <span class="study-topic-card-title">${escapeHtml(item.label)}</span>
                 <span class="study-topic-card-arrow">→</span>
               </button>
@@ -592,6 +691,7 @@ function openStudyModule(index) {
     </div>
   `;
 
+  if (updateHash) updateRoute(`study/${module.slug}`, { replace: replaceHistory });
   window.scrollTo(0, 0);
 }
 
@@ -614,6 +714,48 @@ function renderModuleList() {
 
 
 /* ── Todo Panel ─────────────────────────────────────────── */
+function applyRouteFromHash() {
+  const route = normalizeRoute(window.location.hash);
+  if (!route || route === 'home') {
+    showView('home-view', null, { updateHash: false });
+    return;
+  }
+
+  const parts = route.split('/');
+  if (parts[0] === 'study' && parts[1]) {
+    const module = findModuleBySlug(parts[1]);
+    if (!module) {
+      showView('home-view', null, { updateHash: false });
+      return;
+    }
+
+    if (parts[2]) {
+      const topic = findModuleTopic(module, parts[2]);
+      if (!topic) {
+        openStudyModule(module.studyIdx, { updateHash: false });
+        return;
+      }
+
+      loadContent(topic.page, topic.label, {
+        updateHash: false,
+        route: `study/${module.slug}/${topic.slug}`
+      });
+      return;
+    }
+
+    openStudyModule(module.studyIdx, { updateHash: false });
+    return;
+  }
+
+  const viewId = VIEW_ROUTE_LOOKUP[route];
+  if (viewId) {
+    showView(viewId, null, { updateHash: false });
+    return;
+  }
+
+  showView('home-view', null, { updateHash: false });
+}
+
 let todoFilter = 'all';
 let todos      = [];
 
@@ -809,4 +951,12 @@ function setupAmbientCanvas() {
 /* ── Init ───────────────────────────────────────────────── */
 setupAmbientCanvas();
 renderModuleList();
-loadWeather();
+isApplyingRoute = true;
+applyRouteFromHash();
+isApplyingRoute = false;
+window.addEventListener('hashchange', () => {
+  isApplyingRoute = true;
+  applyRouteFromHash();
+  isApplyingRoute = false;
+});
+if (typeof loadWeather === 'function') loadWeather();

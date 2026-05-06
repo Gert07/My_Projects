@@ -1,0 +1,65 @@
+#include <Servo.h>
+
+// Viigud (Pins)
+const int tempPin = A0;    // Temperatuuriandur
+const int ldrPin = A1;     // Valgusandur
+const int ledPin = 13;     // Valgustus
+const int servoPin = 9;    // Servo signaal
+
+// Muutujad
+Servo myServo;
+int currentAngle = 0;      // Servo hetkeseis
+int targetAngle = 0;       // Kuhu servo peaks liikuma
+const int lightThreshold = 500; // Valguse lävi
+
+void setup() {
+  Serial.begin(9600);
+  myServo.attach(servoPin);
+  pinMode(ledPin, OUTPUT);
+  myServo.write(currentAngle); // Alusta suletud aknaga
+}
+
+void loop() {
+  // 1. TEMPERATUURI LUGEMINE JA SERVO JUHTIMINE
+  int rawTemp = analogRead(tempPin);
+  // Teisendame pinge kraadideks (TMP36 anduri näide)
+  float voltage = rawTemp * (5.0 / 1023.0);
+  float temperature = (voltage - 0.5) * 100;
+
+  // Määrame sihtnurga vastavalt nõuetele
+  if (temperature <= 20) {
+    targetAngle = 0;   // Külm - aken kinni
+  } else if (temperature >= 30) {
+    targetAngle = 180; // Kuum - aken pärani
+  } else {
+    // Vahepealne sujuv reguleerimine (valikuline, aga soovitatav)
+    targetAngle = map(temperature, 20, 30, 0, 180);
+    targetAngle = constrain(targetAngle, 0, 180);
+  }
+
+  // Sujuv liikumine sihtnurgani
+  if (currentAngle < targetAngle) {
+    currentAngle++;
+    myServo.write(currentAngle);
+    delay(15); 
+  } else if (currentAngle > targetAngle) {
+    currentAngle--;
+    myServo.write(currentAngle);
+    delay(15);
+  }
+
+  // 2. VALGUSTUSE JUHTIMINE
+  int lightLevel = analogRead(ldrPin);
+  if (lightLevel < lightThreshold) {
+    digitalWrite(ledPin, HIGH); // Pime - tuli põlema
+  } else {
+    digitalWrite(ledPin, LOW);  // Valge - tuli kustu
+  }
+
+  // Silumiseks (Debug)
+  Serial.print("Temp: "); Serial.print(temperature);
+  Serial.print(" C | Valgus: "); Serial.print(lightLevel);
+  Serial.print(" | Servo: "); Serial.println(currentAngle);
+  
+  delay(20); // Väike paus stabiilsuse tagamiseks
+}
