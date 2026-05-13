@@ -1,0 +1,123 @@
+#include <LiquidCrystal.h>
+
+// LCD ühendused: RS, EN, D4, D5, D6, D7
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+const int tempPin = A0; // TMP36 temperatuuriandur
+const int ldrPin = A1;  // Fototakisti (valgusandur)
+
+// --- Pildid (Kohandatud sümbolid) ---
+byte paike[8]   = {0b00100, 0b10101, 0b01110, 0b11111, 0b01110, 0b10101, 0b00100, 0b00000};
+byte pilv[8]    = {0b00000, 0b00000, 0b00110, 0b01111, 0b11111, 0b00000, 0b00000, 0b00000};
+byte vihm[8]    = {0b00000, 0b01110, 0b11111, 0b00100, 0b01010, 0b10001, 0b00000, 0b00000};
+byte lumi[8]    = {0b00100, 0b10101, 0b00100, 0b11111, 0b00100, 0b10101, 0b00100, 0b00000};
+byte syda[8]    = {0b00000, 0b01010, 0b11111, 0b11111, 0b11111, 0b01110, 0b00100, 0b00000};
+
+unsigned long eelmineAeg = 0;
+int ekraaniOlek = 0;
+const long intervall = 4000; // Ekraan vahetub iga 4 sekundi tagant
+
+void setup() {
+  lcd.begin(16, 2);
+  
+  // Laeme pildid LCD mällu
+  lcd.createChar(0, paike);
+  lcd.createChar(1, pilv);
+  lcd.createChar(2, vihm);
+  lcd.createChar(3, lumi);
+  lcd.createChar(4, syda);
+
+  // Käivitamise tervitusekraan
+  lcd.setCursor(0, 0);
+  lcd.print("Ilmajaam Ilm");
+  lcd.setCursor(0, 1);
+  lcd.print("Andmete lugemine");
+  delay(3000);
+  lcd.clear();
+}
+
+void loop() {
+  unsigned long praeguneAeg = millis();
+
+  // 1. Andurite lugemine
+  int tempLugem = analogRead(tempPin);
+  float pinge = tempLugem * 5.0 / 1024.0;
+  int temperatuur = (pinge - 0.5) * 100; // TMP36 kraadide arvutamine
+
+  int valgus = analogRead(ldrPin); // 0 (pime) kuni 1023 (valge)
+
+  // 2. Kellaaja arvutamine millis() abil
+  int sekundid = (praeguneAeg / 1000) % 60;
+  int minutid = (praeguneAeg / 60000) % 60;
+
+  char kellaaeg[6];
+  sprintf(kellaaeg, "%02d:%02d", minutid, sekundid); // Vormindab "00:00" stiili
+
+  // 3. Ekraani vahetamise loogika
+  if (praeguneAeg - eelmineAeg >= intervall) {
+    eelmineAeg = praeguneAeg;
+    ekraaniOlek++;
+    if (ekraaniOlek > 4) {
+      ekraaniOlek = 0; // Hakkab otsast peale
+    }
+    lcd.clear();
+  }
+
+  // --- Ekraanide kuvamine ---
+  lcd.setCursor(0, 0);
+
+  if (ekraaniOlek == 0) {
+    // 1. Ekraan: Temperatuur ja soojuse/külma laused
+    lcd.print("Temp: ");
+    lcd.print(temperatuur);
+    lcd.print("C  ");
+    lcd.print(kellaaeg);
+    
+    lcd.setCursor(0, 1);
+    if (temperatuur >= 22) {
+      lcd.write(byte(0)); // Päike
+      lcd.print(" Soe!");
+    } else if (temperatuur < 10) {
+      lcd.write(byte(3)); // Lumi
+      lcd.print(" Jahe!");
+    } else {
+      lcd.write(byte(1)); // Pilv
+      lcd.print(" Tavaline");
+    }
+  } 
+  else if (ekraaniOlek == 1) {
+    // 2. Ekraan: Valgus ja vihma/selguse loogika
+    lcd.print("Valgus: ");
+    if (valgus > 600) {
+      lcd.print("Hele ");
+      lcd.setCursor(0, 1);
+      lcd.write(byte(0));
+      lcd.print(" Selge!");
+    } else {
+      lcd.print("Hamar ");
+      lcd.setCursor(0, 1);
+      lcd.write(byte(2)); // Vihm
+      lcd.print(" Vihma oht");
+    }
+  }
+  else if (ekraaniOlek == 2) {
+    // 3. Ekraan: Üldine soovitus (5. lause)
+    lcd.print("Ilm soovib:");
+    lcd.setCursor(0, 1);
+    lcd.write(byte(4)); // Süda
+    lcd.print(" Ilusat paeva!");
+  }
+  else if (ekraaniOlek == 3) {
+    // 4. Ekraan: Nõutud naljakas/reklaamtekst
+    lcd.print("Nali: Eestlane");
+    lcd.setCursor(0, 1);
+    lcd.print("Naeratas...");
+  }
+  else if (ekraaniOlek == 4) {
+     // 5. Ekraan: Süsteemi info / Pidev kell
+    lcd.print("Ilmajaam Ilm ");
+    lcd.setCursor(0, 1);
+    lcd.print("Kell: ");
+    lcd.print(kellaaeg);
+  }
+}
