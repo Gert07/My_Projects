@@ -631,12 +631,12 @@ const MODULES = [
           { slug: 'valgusfoor', label: 'Valgusfoor', page: './content/Robootika/valgusfoor.html' },
           { slug: 'potensiomeeter', label: 'Potensiomeeter', page: './content/Robootika/potensiomeeter.html' },
           { slug: 'oolamp', label: 'Öölamp', page: './content/Robootika/oolamp.html'},
-          { slug: 'servo', label: 'Servo ja Temp andur', page: './content/Robootika/servo.html'}
+          { slug: 'servo', label: 'Servo ja Temp andur', page: './content/Robootika/servo.html'},
           { slug: 'ilmajaam', label: 'Ilmajaam "Ilm"', page: './content/Robootika/ilmajaam.html'}
         ]
       }
     ]
-  }
+  }   
 ];
 
 function findModuleBySlug(slug) {
