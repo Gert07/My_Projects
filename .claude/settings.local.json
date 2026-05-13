@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-Content \"c:\\\\Users\\\\puura\\\\Documents\\\\GitHub\\\\My_Projects\\\\assets\\\\javascript\\\\gallery.js\")",
+      "PowerShell(New-Item -Path \"c:\\\\Users\\\\puura\\\\Documents\\\\GitHub\\\\My_Projects\\\\assets\\\\javascript\\\\modules.js\" -ItemType File -Force)"
+    ]
+  }
+}
