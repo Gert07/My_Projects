@@ -119,7 +119,8 @@ const MODULES = [
           { slug: 'potensiomeeter', label: 'Potensiomeeter', page: './content/Robootika/potensiomeeter.html' },
           { slug: 'oolamp', label: 'Öölamp', page: './content/Robootika/oolamp.html'},
           { slug: 'servo', label: 'Servo ja Temp andur', page: './content/Robootika/servo.html'},
-          { slug: 'ilmajaam', label: 'Ilmajaam', page: './content/Robootika/ilmajaam.html'}
+          { slug: 'ilmajaam', label: 'Ilmajaam', page: './content/Robootika/ilmajaam.html'},
+          { slug: 'buzzer', label: 'Buzzer', page: './content/Robootik/buzzer.html'}
         ]
       }
     ]
