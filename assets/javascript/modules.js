@@ -120,7 +120,8 @@ const MODULES = [
           { slug: 'oolamp', label: 'Öölamp', page: './content/Robootika/oolamp.html'},
           { slug: 'servo', label: 'Servo ja Temp andur', page: './content/Robootika/servo.html'},
           { slug: 'ilmajaam', label: 'Ilmajaam', page: './content/Robootika/ilmajaam.html'},
-          { slug: 'buzzer', label: 'Buzzer', page: './content/Robootik/buzzer.html'}
+          { slug: 'buzzer', label: 'Buzzer', page: './content/Robootika/buzzer.html'},
+          { slug: 'parkla', label: 'Parkla', page: './content/Robootika/parkla.html'}
         ]
       }
     ]

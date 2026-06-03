@@ -1,0 +1,134 @@
+#include <LiquidCrystal.h>
+
+// Andurite ja komponentide viigud
+#define LDR_PIN A0
+#define TEMP_PIN A1
+#define BUZZER_PIN 8
+#define SWITCH_PIN 7
+
+// Initsialiseeri standardne LCD
+// Parameetrid: RS, E, D4, D5, D6, D7
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+unsigned long lastSensorUpdate = 0;
+
+// Taustamuusika (Star Wars Main Theme)
+int melody[] = {
+  294, 294, 294, 392, 587, 523, 494, 440, 784, 587, 
+  523, 494, 440, 784, 587, 523, 494, 523, 440
+};
+
+int noteDurations[] = {
+  200, 200, 200, 800, 800, 200, 200, 200, 800, 400, 
+  200, 200, 200, 800, 400, 200, 200, 200, 800
+};
+
+int currentNote = 0;
+unsigned long lastNoteTime = 0;
+// Arvutame automaatselt nootide arvu, et me ei peaks seda käsitsi muutma
+int totalNotes = sizeof(melody) / sizeof(melody[0]);
+
+// Alarmi muutujad
+unsigned long lastAlarmBeep = 0;
+bool beepState = false;
+
+void setup() {
+  pinMode(BUZZER_PIN, OUTPUT);
+  // Fikseeruv nupp sisse/välja lülitamiseks, kasutab sisemist takistit
+  pinMode(SWITCH_PIN, INPUT_PULLUP); 
+
+  // Määrame LCD ekraani suuruse (16 veergu, 2 rida)
+  lcd.begin(16, 2);
+}
+
+void loop() {
+  // 1. KONTROLLI, KAS SÜSTEEM ON SISSE LÜLITATUD
+  // Kuna kasutame INPUT_PULLUP, siis nupp pole all = HIGH, nupp all = LOW
+  if (digitalRead(SWITCH_PIN) == HIGH) { 
+    lcd.setCursor(0, 0);
+    lcd.print("Susteem valjas  ");
+    lcd.setCursor(0, 1);
+    lcd.print("                ");
+    noTone(BUZZER_PIN);
+    return; // Ootab, kuni lüliti uuesti sisse vajutatakse
+  }
+
+  // 2. ANDURITE LUGEMINE
+  // TMP36 temperatuuri arvutamine (KESKMISE VÕTMINE MÜRA VÄHENDAMISEKS)
+  int tempTotal = 0;
+  for(int i = 0; i < 10; i++) {
+    tempTotal += analogRead(TEMP_PIN);
+  }
+  int tempReading = tempTotal / 10; // Leiame 10 lugemi keskmise
+  
+  float voltage = tempReading * (5.0 / 1023.0); 
+  float temp = (voltage - 0.5) * 100; // Valem TMP36 jaoks
+  
+  int lightLevel = analogRead(LDR_PIN);
+
+  // 3. OHTLIKE OLUKORDADE KONTROLL
+  bool alarmActive = false;
+  String alertMessage = "";
+
+  if (temp > 30.0) {
+    alarmActive = true;
+    alertMessage = "TEMP KORGE!     ";
+  } else if (lightLevel > 200) { // Kohanda piiri vastavalt ruumi valgusele
+    alarmActive = true;
+    alertMessage = "Tuvastatud pime!";
+  }
+
+  // 4. REAGEERIMINE OLEKULE
+  if (alarmActive) {
+    // ---- HÄIREOLUKORD ----
+    lcd.setCursor(0, 0);
+    lcd.print(alertMessage);
+    
+    if (millis() - lastSensorUpdate > 1000) {
+      lcd.setCursor(0, 1);
+      lcd.print("T:" + String(temp, 1) + "C L:" + String(lightLevel) + "    ");
+      lastSensorUpdate = millis();
+    }
+
+    // Alarmheli (kiire vilkumine)
+    if (millis() - lastAlarmBeep > 150) {
+      lastAlarmBeep = millis();
+      beepState = !beepState;
+      if (beepState) {
+        tone(BUZZER_PIN, 1500); 
+      } else {
+        noTone(BUZZER_PIN);
+      }
+    }
+    
+    currentNote = 0; // Algseadista taustamuusika
+
+  } else {
+    // ---- NORMAALNE OLUKORD ----
+    
+    if (millis() - lastSensorUpdate > 1000) {
+      lcd.setCursor(0, 0);
+      lcd.print("Temp: " + String(temp, 1) + "C     ");
+      lcd.setCursor(0, 1);
+      lcd.print("Valgus: " + String(lightLevel) + "     ");
+      lastSensorUpdate = millis();
+    }
+
+    // Taustamuusika mängimine (ilma delay-ta)
+    unsigned long noteDuration = noteDurations[currentNote];
+    if (millis() - lastNoteTime >= noteDuration) {
+      noTone(BUZZER_PIN); // Lühike paus nootide vahel
+      
+      if (millis() - lastNoteTime >= noteDuration + 50) { 
+        tone(BUZZER_PIN, melody[currentNote], noteDuration);
+        lastNoteTime = millis();
+        currentNote++;
+        
+        // Kui meloodia saab läbi, alusta otsast (kasutab nüüd automaatset pikkust)
+        if (currentNote >= totalNotes) {
+          currentNote = 0;
+        }
+      }
+    }
+  }
+}
