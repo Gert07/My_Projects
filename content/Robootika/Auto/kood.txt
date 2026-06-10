@@ -1,0 +1,200 @@
+//DISTANCE VARIABLES
+const int trigPin = 4;
+const int echoPin = 12;
+
+int dist_check1, dist_check2, dist_check3;
+long duration, distance;
+int dist_result;
+
+//MOTORS VARIABLES
+const int mot1f = 6;
+const int mot1b = 5;
+const int mot2f = 11;
+const int mot2b = 10;
+int mot_speed = 70; //motors speed
+int k = 0; //BRAKE
+
+//LOGICS VARIABLES
+const int dist_stop = 25;
+const int max_range = 800;
+int errorLED = 13;
+
+//INITIALIZATION
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(errorLED, OUTPUT);
+
+  pinMode(mot1f, OUTPUT);
+  pinMode(mot1b, OUTPUT);
+  pinMode(mot2f, OUTPUT);
+  pinMode(mot2b, OUTPUT);
+
+  Serial.println("Robot started");
+ 
+  // Give the user 1 second to move their hands away before the loop starts
+  delay(1000);
+}
+
+//BASIC PROGRAM CYCLE
+void loop() {
+  int result = ping(); //Check distance
+
+  Serial.print("Distance: ");
+  Serial.print(result);
+  Serial.println(" cm");
+
+  // If result is 0 (timeout) or above max range, the path is clear!
+  if (result == 0 || result >= max_range) {
+    Serial.println("Path clear (Out of range) - moving forward");
+    digitalWrite(errorLED, 0);
+    motors_forward();
+    delay(100);
+  }
+  // If result is greater than 0 AND less than or equal to our stop distance
+  else if (result <= dist_stop) {
+    Serial.println("================================");
+    Serial.println("OBSTACLE DETECTED!");
+    Serial.println("Backing up...");
+    Serial.println("================================");
+
+    digitalWrite(errorLED, 0);
+
+    motors_back();
+    delay(1000);
+
+    motors_stop();
+    delay(200);
+
+    Serial.println("Turning left...");
+
+    motors_left();
+    delay(300);
+
+    motors_stop();
+    delay(200);
+  }
+  // For all normal distances between 16 and max_range
+  else {
+    Serial.println("Path clear - moving forward");
+    digitalWrite(errorLED, 0);
+    motors_forward();
+    delay(100);
+  }
+}
+
+////***********************FUNCTIONS*******************************\\\\
+
+int ping() { //CHECK DISTANCE FUNCTION (3x)
+  // Added a 30000 microsecond (30ms) timeout to pulseIn
+  // so the robot doesn't freeze when facing empty space.
+
+  digitalWrite(trigPin, 0);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, 1);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, 0);
+  duration = pulseIn(echoPin, 1, 30000);
+  dist_check1 = duration / 58;
+
+  digitalWrite(trigPin, 0);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, 1);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, 0);
+  duration = pulseIn(echoPin, 1, 30000);
+  dist_check2 = duration / 58;
+
+  digitalWrite(trigPin, 0);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, 1);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, 0);
+  duration = pulseIn(echoPin, 1, 30000);
+  dist_check3 = duration / 58;
+
+  int dist_check_sum = dist_check1 + dist_check2 + dist_check3;
+  dist_result = dist_check_sum / 3;
+
+  Serial.print("Read1: ");
+  Serial.print(dist_check1);
+  Serial.print(" | Read2: ");
+  Serial.print(dist_check2);
+  Serial.print(" | Read3: ");
+  Serial.print(dist_check3);
+  Serial.print(" | Average: ");
+  Serial.println(dist_result);
+
+  return dist_result;
+}
+
+void motors_forward() {
+  analogWrite(mot1f, 90);
+  analogWrite(mot2f, 60);
+  digitalWrite(mot1b, LOW);
+  digitalWrite(mot2b, LOW);
+
+}
+
+void motors_back() {
+  digitalWrite(mot1f, 0);
+  digitalWrite(mot2f, 0);
+  analogWrite(mot1b, mot_speed);
+  analogWrite(mot2b, mot_speed);
+}
+
+void motors_stop() {
+  // Assuming 1 on all pins is your motor driver's fast-brake logic
+  digitalWrite(mot1f, 1);
+  digitalWrite(mot2f, 1);
+  digitalWrite(mot1b, 1);
+  digitalWrite(mot2b, 1);
+}
+
+void motors_left() {
+  analogWrite(mot1f, mot_speed);
+  digitalWrite(mot2f, 0);
+  digitalWrite(mot1b, 0);
+  analogWrite(mot2b, mot_speed);
+}
+
+void motors_right() {
+  digitalWrite(mot1f, 0);
+  analogWrite(mot2f, mot_speed);
+  analogWrite(mot1b, mot_speed);
+  digitalWrite(mot2b, 0);
+}
+
+void motors_foward_left() {
+  k = mot_speed * 0.8;
+  analogWrite(mot1f, mot_speed);
+  analogWrite(mot2f, k);
+  digitalWrite(mot1b, 0);
+  digitalWrite(mot2b, 0);
+}
+
+void motors_foward_right() {
+  k = mot_speed * 0.8;
+  analogWrite(mot1f, k);
+  analogWrite(mot2f, mot_speed);
+  analogWrite(mot1b, 0);
+  analogWrite(mot2b, 0);
+}
+
+void motors_back_left() {
+  k = mot_speed * 0.8;
+  digitalWrite(mot1f, 0);
+  digitalWrite(mot2f, 0);
+  analogWrite(mot1b, k);
+  analogWrite(mot2b, mot_speed);
+}
+
+void motors_back_right() {
+  k = mot_speed * 0.8;
+  digitalWrite(mot1f, 0);
+  digitalWrite(mot2f, 0);
+  analogWrite(mot1b, mot_speed);
+  analogWrite(mot2b, k);
+}

@@ -121,7 +121,8 @@ const MODULES = [
           { slug: 'servo', label: 'Servo ja Temp andur', page: './content/Robootika/servo.html'},
           { slug: 'ilmajaam', label: 'Ilmajaam', page: './content/Robootika/ilmajaam.html'},
           { slug: 'buzzer', label: 'Buzzer', page: './content/Robootika/buzzer.html'},
-          { slug: 'parkla', label: 'Parkla', page: './content/Robootika/parkla.html'}
+          { slug: 'parkla', label: 'Parkla', page: './content/Robootika/parkla.html'},
+          { slug: 'auto', label: 'Auto', page: './content/Robootika/auto.html'}
         ]
       }
     ]
